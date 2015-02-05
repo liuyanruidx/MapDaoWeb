@@ -1,4 +1,4 @@
-<ol class="breadcrumb">
+﻿<ol class="breadcrumb">
     <li><a href="#">首页</a></li>
     <li><a href="#">路线</a></li>
     <li class="active"><%= title %></li>
@@ -7,7 +7,7 @@
     <div class="col-md-12">
         <div id="roadimg" data-roadid="<%= roadid %>"
              style="width: 100%;height:400px;background-image: url('/roads/getroadfirstimage/<%= roadid %>');background-size: 100% 100%;">
-            <div style="background-color:#27aaff;color: #ffffff;width: 600px;height: 200px;top: 180px;position: absolute;left: 50px;padding: 10px;">
+            <div style="background-color:rgba(255, 255, 255, 0.8);width: 100%;height: 100%;">
                 <div class="row">
                     <div class="col-md-12">
                         <input class="title_input" type="text" id="roadtitle" data-roadid="<%= roadid %>"
@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <textarea class="content_input" rows="7" id="roadcontent" data-roadid="<%= roadid %>"
-                                  style="margin-top: 10px;"
+                                  style="margin-top: 10px;resize:none;"
                                   placeholder="简介描述"><%= content %>
                         </textarea>
                     </div>
