@@ -278,7 +278,7 @@ app.get('/roads/pointlistpart/:id', function (req, res) {
 app.get('/roads/roadtitleadd', function (req, res) {
     var Road = AV.Object.extend("Road");
     var road = new Road();
-    road.set("RoadTitle", req.body.title);
+    road.set("RoadTitle", req.body.title.trim());
     road.save(null, {
             success: function (road) {
                 res.send('true');
@@ -293,8 +293,8 @@ app.get('/roads/roadtitleadd', function (req, res) {
 app.post('/roads/roadadd', function (req, res) {
     var Road = AV.Object.extend("Road");
     var road = new Road();
-    road.set("Title", req.body.InputTitle);
-    road.set("Content", req.body.InputContent);
+    road.set("Title", req.body.InputTitle.trim());
+    road.set("Content", req.body.InputContent.trim());
     road.save(null, {
             success: function (road) {
                 //res.send('true');
@@ -316,7 +316,7 @@ app.post('/roads/editroadtitle', function (req, res) {
     query.get(req.body.RoadID, {
         success: function (road) {
             // The object was retrieved successfully.
-            road.set("Title", req.body.Title);
+            road.set("Title", req.body.Title.trim());
             road.save();
             res.send('true');
         },
@@ -336,7 +336,7 @@ app.post('/roads/editroadcontent', function (req, res) {
     query.get(req.body.RoadID, {
         success: function (road) {
             // The object was retrieved successfully.
-            road.set("Content", req.body.Content);
+            road.set("Content", req.body.Content.trim());
             road.save();
             res.send('true');
         },
@@ -427,8 +427,8 @@ app.post('/points/pointadd', function(req, res) {
 
 
     point.set("RoadId",req.body.RoadId);
-    point.set("Title",req.body.InputTitle);
-    point.set("Content",req.body.InputContent);
+    point.set("Title",req.body.InputTitle.trim());
+    point.set("Content",req.body.InputContent.trim());
     point.save(null, {
             success: function(point) {
                 //res.send('true');
@@ -448,7 +448,7 @@ app.post('/points/editpointtitle', function(req, res) {
     query.get(req.body.PointID, {
         success: function(point) {
             // The object was retrieved successfully.
-            point.set("Title", req.body.Title);
+            point.set("Title", req.body.Title.trim());
             point.save();
             res.send('true');
         },
@@ -468,7 +468,7 @@ app.post('/points/editpointcontent', function(req, res) {
     query.get(req.body.PointID, {
         success: function(point) {
             // The object was retrieved successfully.
-            point.set("Content", req.body.Content);
+            point.set("Content", req.body.Content.trim());
             point.save();
             res.send('true');
         },
