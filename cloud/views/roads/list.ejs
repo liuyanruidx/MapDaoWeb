@@ -1,0 +1,53 @@
+
+<% for(var i = 0;i < roads.length;i++){ %>
+<div class="row" style="margin-top: 20px;">
+
+    <div class="col-md-12">
+        <a href="/roads/details/<%=roads[i].id%>">
+        <div style="width: 100%;height:300px;background-image: url('/roads/getroadfirstimage/<%=roads[i].id%>');background-size: 100% 100%;">
+            <div style="background-color:rgba(17, 108, 235, 0.57);color: #ffffff;width:600px;height: 200px;top: 80px;position: absolute;left: 50px;padding: 10px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="disabled" class="pointtitle" data-pointid="<%= roads[i].id %>"
+                               value="<%= roads[i].title %>"
+                               style="background-color: transparent;border: 0;border-bottom:1px solid #ffffff;width: 100%;height: 40px;font-size: 20px;"
+                               placeholder="请输入标题">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea disabled="disabled" rows="7" class="pointcontent" data-pointid="<%= roads[i].id %>"
+                                  style="width: 100%;margin-top: 10px;background-color: transparent;border: 0;"
+                                  placeholder="简介描述"><%= roads[i].content %></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </a>
+    </div>
+
+</div>
+<% } %>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加路线</h3>
+            </div>
+            <div class="panel-body">
+                <form id="addroadform" name="addroadform" role="form" action="/roads/roadadd" method="post">
+                    <div class="form-group">
+                        <label for="InputTitle">标题</label>
+                        <input type="text" class="form-control" id="InputTitle" name="InputTitle" placeholder="标题">
+                    </div>
+                    <div class="form-group">
+                        <label for="InputContent">内容</label>
+                        <textarea rows="8" class="form-control" id="InputContent" name="InputContent"  placeholder="内容"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

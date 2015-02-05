@@ -1,0 +1,28 @@
+<% for(var i = 0;i < points.length;i++){ %>
+<div class="col-md-6" style="margin-top: 20px;">
+    <div class="pointimg" data-pointid="<%= points[i].id %>"
+         style="width: 100%;height:300px;background-image: url('/points/getpointfirstimage/<%= points[i].id+"?date="+new Date()%>');background-size: 100% 100%;">
+        <div style="background-color:rgba(17, 108, 235, 0.57);color: #ffffff;width:300px;height: 200px;top: 80px;position: absolute;left: 50px;padding: 10px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <input class="title_input" type="text" class="pointtitle" data-pointid="<%= points[i].id %>"
+                           value="<%= points[i].title %>"
+                           
+                           placeholder="请输入标题">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                        <textarea class="content_input" rows="7" class="pointcontent" data-pointid="<%= points[i].id %>"
+                                  style="margin-top: 10px;"
+                                  placeholder="简介描述"><%= points[i].content %></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+	<img class="pointdelete" data-pointid="<%= points[i].id %>" src="/images/iconfont-shanchu.png"  width="30" height="30"
+         style="position: absolute;right: 20px;bottom: 10px;"/>
+    <img class="pointpositionset" data-pointid="<%= points[i].id %>" src="/images/iconfont-dingwei1.png" width="30" height="30"
+         style="position: absolute;right: 60px;bottom: 10px;"/>
+</div>
+<% } %>

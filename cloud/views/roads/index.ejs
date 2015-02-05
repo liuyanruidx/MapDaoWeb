@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-md-12">
+        <div style="width: 100%;height:400px;background-image: url('/images/img1.png');background-size: 100% 100%;">
+            <div style="background-color:#27aaff;color: #ffffff;width: 500px;height: 200px;top: 180px;position: absolute;left: 50px;padding: 10px;">
+                <h2>清华大学</h2>
+                 <span>
+                    清华大学（Tsinghua University），简称清华，诞生于1911年，因北京西北郊清华园得名，依托美国退还的部分“庚子赔款”建立，初称清华学堂，是清政府设立的留美预备学校，翌年更名为清华学校；为尝试人才的本地培养，1925年，设立大学部；1928年，更名为“国立清华大学”；1937年，抗日战争爆发后，学校南迁长沙，与北京大学、南开大学联合组建国立长沙临时大学；1938年，迁至昆明，改名为国立西南联合大学；1946年，迁回清华园原址复校。
+                 </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加站点</h3>
+            </div>
+            <div class="panel-body">
+                <form id="addroadform" name="addroadform" role="form" action="/roads/roadadd" method="post">
+                    <div class="form-group">
+                        <label for="InputTitle">标题</label>
+                        <input type="text" class="form-control" id="InputTitle" name="InputTitle" placeholder="标题">
+                    </div>
+                    <div class="form-group">
+                        <label for="InputContent">内容</label>
+                        <textarea rows="8" class="form-control"  id="InputContent" name="InputContent" placeholder="内容" ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div style="width: 100%;height:400px;background-image: url('/images/img1.png');background-size: 100% 100%;">
+            <div style="background-color:#27aaff;color: #ffffff;width: 500px;height: 200px;top: 180px;position: absolute;left: 50px;padding: 10px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text"  style="background-color: transparent;border: 0;border-bottom:1px solid #ffffff;width: 100%;height: 40px;font-size: 20px;" placeholder="请输入标题">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea rows="7"  style="width: 100%;margin-top: 10px;background-color: transparent;border: 0;" placeholder="简介描述"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div style="width: 100%;height:400px;background-image: url('/images/img1.png');background-size: 100% 100%;">
+            <div style="background-color:#27aaff;color: #ffffff;width: 500px;height: 200px;top: 180px;position: absolute;left: 50px;padding: 10px;">
+                <h2>清华大学</h2>
+                 <span>
+                    清华大学（Tsinghua University），简称清华，诞生于1911年，因北京西北郊清华园得名，依托美国退还的部分“庚子赔款”建立，初称清华学堂，是清政府设立的留美预备学校，翌年更名为清华学校；为尝试人才的本地培养，1925年，设立大学部；1928年，更名为“国立清华大学”；1937年，抗日战争爆发后，学校南迁长沙，与北京大学、南开大学联合组建国立长沙临时大学；1938年，迁至昆明，改名为国立西南联合大学；1946年，迁回清华园原址复校。
+                 </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div style="width: 100%;height: 300px;background-color: orange;"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="content">
+            <ul class="list-group">
+                <li class="list-group-item active">全部站点</li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-success" onclick="addtitle()">添加站点</button>
+                    <button type="button" class="btn btn-success">添加站点</button>
+                </li>
+                <li class="list-group-item">Morbi leo risus</li>
+                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <button type="button" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span>发布路线
+            </button>
+        </div>
+    </div>
+</div>
+<script type="application/javascript">
+    $().ready(function(){
+        $('#addroadform').ajaxForm(function(){
+        });
+    })
+    function addtitle()
+    {
+        $.ajax({
+            type: "GET",
+            url: "/roads/roadtitleadd",
+            data: "title=爱迪生缴费卡",
+            dataType: "json",
+            success: function (data) {
+                console.log("asd",data);
+                console.log(data=='true')
+                if(data==true)
+                {
+                    alert("adsfasdf")
+                }
+            }
+        });
+    }
+</script>
