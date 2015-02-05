@@ -38,7 +38,7 @@ border: 0;
 .content_input{
 color:#4f4c4c;
 background-color: transparent;
-border-top: 0; border-right: 1px solid white; border-left: 1px solid white;border-bottom: 0;  font-size: 14px;  font-family: SimHei;
+border-top: 0; border-right: 1px solid white; border-left: 1px solid white;border-bottom: 0;  width: 100%;font-size: 14px;  font-family: SimHei;
 }
 .content_input:hover,.content_input:focus,.content_input:active{
 border: 0;
