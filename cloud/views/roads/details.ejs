@@ -435,11 +435,11 @@ console.log(pointid)
 
     function GetMarker(x,y)
     {
+       map.clearOverlays();
         var point = new BMap.Point(x, y);
-        map.clearOverlays();
         var marker = new BMap.Marker(point);
-        map.centerAndZoom(point, 11);
         map.addOverlay(marker);
+        map.centerAndZoom(point, 11);
     }
     /*根据坐标获取地址*/
     function GetAddress(point) {
