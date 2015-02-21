@@ -1,0 +1,21 @@
+<div>
+<button onclick="testget()">adsfsdf</button>
+</div>
+
+<script type="text/javascript">
+    function testget(){
+        alert('asdfasdf')
+        $.ajax({
+            type: "GET",
+            url: "/roads/getjson",
+//            data: "RoadID=" + roadid + "&Content=" + content,
+            dataType: "json",
+            success: function (data) {
+                //alert('asdfasdf')
+                console.log(data)
+                alert(data[0].name)
+            }
+        });
+    }
+
+</script>

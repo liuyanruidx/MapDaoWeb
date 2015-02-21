@@ -25,6 +25,9 @@
                     </div>
                 </div>
             </div>
+            <img class="roadpoinsmap" data-roadid="<%= roadid %>" src="/images/iconfont-ditu.png"  width="30" height="30"
+                 style="position: absolute;right: 60px;bottom: 10px;"/>
+
             <img class="roaddelete" data-roadid="<%= roadid %>" src="/images/iconfont-shanchu.png"  width="30" height="30"
                  style="position: absolute;right: 20px;bottom: 10px;"/>
             <!--<img src="/images/iconfont-dingwei1.png" width="30" height="30"-->
@@ -95,13 +98,21 @@
                     <input name="PointID" id="PointID" type="hidden" value="12345678987654321">
                 </form>
             </div>
-            <!--<div class="modal-footer">-->
-            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-            <!--</div>-->
+
         </div>
     </div>
 </div>
+
+
+<div class="modal fade " id="RoadPointPositionModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="allpointsmap" style="width:100%;height: 400px;margin-top: 10px;"></div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade" id="PointPositionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -247,6 +258,39 @@
             if ($(e.target).attr('class') == 'pointpositionset') {
                 $('#PointPositionModal').modal('show');
                 $('#pointpositionpointid').val(e.target.dataset.pointid);
+
+                var pointid=e.target.dataset.pointid;
+console.log(pointid)
+                //获取点的位置
+                $.ajax({
+                    type: "POST",
+                    url: "/points/getpointposition",
+                    data: "id=" + pointid,
+                    dataType: "json",
+                    success: function (data) {
+                        //alert('asdfasdf')
+                        console.log(data)
+
+                        $('#pointpositioninput').val(data.Address);
+
+
+                        if(data.Longitude!="") {
+                            GetMarker(data.Longitude, data.Latitude);
+                        }
+
+                        //$('#pointpositionpointid').val(data.Address);
+                        //$('#pointpositionpointid').val(data.Address);
+
+                        //alert(data[0].name)
+
+                        //addMarkers(data);
+                       // console.log(data)
+
+                    }
+                });
+
+
+
             }
         });
 		$('.pointdelete').click(function(e){
@@ -301,6 +345,34 @@
             }
         });
 
+        $('.roadpoinsmap').click(function (e) {
+            if ($(e.target).attr('class') == 'roadpoinsmap') {
+                //$('#RoadID').val(e.target.dataset.roadid);
+                $('#RoadPointPositionModal').modal('show');
+
+
+                var roadid=e.target.dataset.roadid;
+
+                //获取道路所有点的位置
+                $.ajax({
+                    type: "POST",
+                    url: "/roads/getjson",
+                    data: "roadid=" + roadid,
+                    dataType: "json",
+                    success: function (data) {
+                        //alert('asdfasdf')
+                        console.log(data)
+                        //alert(data[0].name)
+
+                        addMarkers(data);
+                        console.log(data)
+
+                    }
+                });
+            }
+        });
+
+
 
     }
 </script>
@@ -311,12 +383,6 @@
         addRemoveLinks: true,
         init: function () {
             this.on("complete", function (data) {
-                //console.info("接收结果");
-                // console.log("asdf",data);
-//                if(data.status=='success')
-//                {
-//                    //$('.pointimg')
-//                }
 
                 $.ajax({ url:"/roads/pointlistpart/<%=roadid%>", datatype:"html",context: document.body, success: function(data) {
                     console.log(data);
@@ -348,7 +414,7 @@
 </script>
 <script src="http://api.map.baidu.com/api?v=2.0&ak=ttGLHUIT7LYSPUEpjlPGlCpY" type="text/javascript"></script>
 <script type="text/javascript">
-    // 百度地图API功能
+    // 百度地图API功能--但个点地图
     var map = new BMap.Map("allmap");    // 创建Map实例
     map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
     map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
@@ -366,6 +432,15 @@
         var marker = new BMap.Marker(point);
         map.addOverlay(marker);
     }
+
+    function GetMarker(x,y)
+    {
+        var point = new BMap.Point(x, y);
+        map.clearOverlays();
+        var marker = new BMap.Marker(point);
+        map.centerAndZoom(point, 11);
+        map.addOverlay(marker);
+    }
     /*根据坐标获取地址*/
     function GetAddress(point) {
         var pt = point;
@@ -377,7 +452,30 @@
             $('#pointpositionlatitude').val(pt.lat);
             //alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street  + addComp.streetNumber);
         });
-
-
     }
+
+    //所有地点地图
+    var map2 = new BMap.Map("allpointsmap");    // 创建Map实例
+    map2.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+    map2.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+    map2.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+    map2.enableScrollWheelZoom(true);
+
+
+    //添加多个覆盖物
+    function addMarkers(points) {
+        //map2.clearOverlays();
+        for(var i=0;i<points.length;i++)
+        {
+            var point=new BMap.Point(points[i].Longitude,points[i].Latitude);
+            var marker = new BMap.Marker(point);
+            if(i==0)
+            {
+                map2.centerAndZoom(point, 11);
+            }
+            map2.addOverlay(marker);
+        }
+    }
+
+
 </script>
