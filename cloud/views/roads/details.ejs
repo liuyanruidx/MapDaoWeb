@@ -25,13 +25,14 @@
                     </div>
                 </div>
             </div>
-            <img class="roadpoinsmap" data-roadid="<%= roadid %>" src="/images/iconfont-ditu.png"  width="30" height="30"
+            <img class="roadpoinsmap" data-roadid="<%= roadid %>" src="/images/iconfont-ditu.png" width="30" height="30"
                  style="position: absolute;right: 60px;bottom: 10px;"/>
 
-            <img class="roaddelete" data-roadid="<%= roadid %>" src="/images/iconfont-shanchu.png"  width="30" height="30"
+            <img class="roaddelete" data-roadid="<%= roadid %>" src="/images/iconfont-shanchu.png" width="30"
+                 height="30"
                  style="position: absolute;right: 20px;bottom: 10px;"/>
             <!--<img src="/images/iconfont-dingwei1.png" width="30" height="30"-->
-                 <!--style="position: absolute;right: 20px;bottom: 10px;"/>-->
+            <!--style="position: absolute;right: 20px;bottom: 10px;"/>-->
         </div>
     </div>
 </div>
@@ -47,6 +48,7 @@
             <div class="panel-body">
                 <form id="addpointform" name="addpointform" role="form" action="/points/pointadd" method="post">
                     <input type="hidden" name="RoadId" value="<%= roadid %>">
+
                     <div class="form-group">
                         <label for="InputTitle">标题</label>
                         <input type="text" class="form-control" id="InputTitle" name="InputTitle" placeholder="标题">
@@ -71,10 +73,108 @@
                 <h4 class="modal-title" id="myModalLabel">路线照片上传</h4>
             </div>
             <div class="modal-body">
-                <form id="roaddropzone" name="roaddropzone" role="form" action="/roads/uploadroadimage" method="post"
-                      class="dropzone" enctype="multipart/form-data">
-                    <input name="RoadID" id="RoadID" type="hidden" value="12345678987654321">
-                </form>
+
+                <div role="tabpanel">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#roadimguptab" aria-controls="roadimguptab"
+                                                                  role="tab" data-toggle="tab">路线照片上传</a></li>
+                        <li role="presentation"><a href="#roadimgmanatab" aria-controls="roadimgmanatab" role="tab"
+                                                   data-toggle="tab">路线照片管理</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="roadimguptab">
+                            <form id="roaddropzone" name="roaddropzone" role="form" action="/roads/uploadroadimage"
+                                  method="post"
+                                  class="dropzone" enctype="multipart/form-data">
+                                <input name="RoadID" id="RoadID" type="hidden" value="12345678987654321">
+                            </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="roadimgmanatab">
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/img1.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
+
+                                        <div class="caption">
+                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
             </div>
             <!--<div class="modal-footer">-->
             <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
@@ -104,7 +204,60 @@
 </div>
 
 
-<div class="modal fade " id="RoadPointPositionModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+<div class="modal fade " id="PointContentEditModal"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="PointTitleEditLabel" style="text-align: center;">阜成门</h4>
+            </div>
+            <!--<div class="modal-body">-->
+            <form id="pointcontentform" name="pointcontentform" role="form" action="/points/editpointcontent" method="post"enctype="multipart/form-data" target="hidden_frame">
+                <iframe name='hidden_frame' id="hidden_frame" style='display: none'></iframe>
+                <input type="hidden" id="PointContentEditID" name="PointContentEditID"/>
+
+                    <textarea id="PointContentEditContent" name="PointContentEditContent" ></textarea>
+            <!--</div>-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary" onclick="SavePointContentEdit()">保存</button>-->
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="RoadPointPositionModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div id="allpointsmap" style="width:100%;height: 400px;margin-top: 10px;"></div>
@@ -124,11 +277,12 @@
                     <h4 class="modal-title" id="myModalLabel">站点位置设置</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" id="pointpositioninput" name="pointpositioninput" placeholder="输入地址">
+                    <input type="text" class="form-control" id="pointpositioninput" name="pointpositioninput"
+                           placeholder="输入地址">
                     <input type="hidden" id="pointpositionpointid" name="pointpositionpointid">
 
-                    <input type="hidden" id="pointpositionlongitude"name="pointpositionlongitude">
-                    <input type="hidden" id="pointpositionlatitude"name="pointpositionlatitude">
+                    <input type="hidden" id="pointpositionlongitude" name="pointpositionlongitude">
+                    <input type="hidden" id="pointpositionlatitude" name="pointpositionlatitude">
 
                     <div id="allmap" style="width: 570px;height: 400px;margin-top: 10px;"></div>
                 </div>
@@ -145,26 +299,73 @@
 
 <script src="/javascripts/dropzone/dropzone.min.js"></script>
 
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+<link rel="stylesheet" href="/javascripts/summernote-master/dist/summernote.css">
+<script type="text/javascript" src="/javascripts/summernote-master/dist/summernote.js"></script>
+<script src="/javascripts/summernote-master/lang/summernote-zh-CN.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#PointContentEditContent').summernote({
+            height: 300,
+            tabsize: 2,
+            codemirror: {
+                theme: 'monokai'
+            },
+            lang: "zh-CN",
+            toolbar: [
+                //['style', ['style']], // no style button
+//                ['style', ['bold', 'italic', 'underline', 'clear']],
+//                ['fontsize', ['fontsize']],
+//                ['color', ['color']],
+//                ['para', ['ul', 'ol', 'paragraph']],
+//                ['height', ['height']],
+//                ['insert', ['picture', 'link']], // no insert buttons
+//                ['table', ['table']], // no table button
+//                ['help', ['help']] //no help button
+//
+
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'hr']],
+                ['view', ['fullscreen', 'codeview']],
+                ['help', ['help']]
+
+            ]
+        });
+    });
+</script>
+
+
+
 <script type="application/javascript">
 
     $().ready(function () {
-        $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>",function(){
+        $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>", function () {
             bangdingshijian();
         });
-//        $('#addpointform').ajaxForm(function () {
-//
-//        });
-
 
 
     });
 
 
-
-    function bangdingshijian(){
+    function bangdingshijian() {
         $('#pointpositionform').ajaxForm(function () {
             $('#PointPositionModal').modal('hide')
         });
+
+
+
+        $('#pointcontentform').ajaxForm(function(){
+            alert("提交成功");
+        });
+
+
         /*修改标题*/
         $('#roadtitle').blur(function (e) {
             var roadid = e.target.dataset.roadid;
@@ -224,30 +425,68 @@
             });
         });
         /*修改内容*/
-        $('.pointcontent').blur(function (e) {
-            var pointid = e.target.dataset.pointid;
-            var content = e.target.value;
-            $.ajax({
-                type: "POST",
-                url: "/points/editpointcontent",
-                data: "PointID=" + pointid + "&Content=" + content,
-                dataType: "json",
-                success: function (data) {
-                    if (data == true) {
-                        //  alert("修改成功")
-                    }
-                    else {
-                        //  alert("修改失败")
-                    }
-                }
-            });
-        });
+//        $('.pointcontent').blur(function (e) {
+//            var pointid = e.target.dataset.pointid;
+//            var content = e.target.value;
+//            $.ajax({
+//                type: "POST",
+//                url: "/points/editpointcontent",
+//                data: "PointID=" + pointid + "&Content=" + content,
+//                dataType: "json",
+//                success: function (data) {
+//                    if (data == true) {
+//                        //  alert("修改成功")
+//                    }
+//                    else {
+//                        //  alert("修改失败")
+//                    }
+//                }
+//            });
+//        });
+
+
+
+
         $('.pointimg').click(function (e) {
             if ($(e.target).attr('class') == 'pointimg') {
                 $('#PointID').val(e.target.dataset.pointid)
                 $('#PointImgModal').modal('show')
             }
         });
+        $('.pointcontent').click(function (e) {
+            $('#PointContentEditModal').modal('show')
+
+            //$('#PointTitleEditLabel').html(e.target.dataset.pointid)
+            $('#PointContentEditID').val(e.target.dataset.pointid)
+
+            var pointid= e.target.dataset.pointid.trim();
+            console.log(pointid)
+
+
+            //获取点的位置
+            $.ajax({
+                type: "POST",
+                url: "/points/getpointposition",
+                data: 'id='+pointid,
+                dataType: "json",
+                success: function (data) {
+                    //alert('asdfasdf')
+                    console.log(data)
+                    $('#PointContentEditContent').code(data.Content);
+                    //alert($('#PointContentEditContent').code())
+                    $('#PointTitleEditLabel').val(data.Title);
+
+                }
+            });
+
+
+
+
+
+        });
+
+
+
         $('#roadimg').click(function (e) {
             if ($(e.target).attr('id') == 'roadimg') {
                 $('#RoadID').val(e.target.dataset.roadid);
@@ -259,8 +498,8 @@
                 $('#PointPositionModal').modal('show');
                 $('#pointpositionpointid').val(e.target.dataset.pointid);
 
-                var pointid=e.target.dataset.pointid;
-console.log(pointid)
+                var pointid = e.target.dataset.pointid;
+                console.log(pointid)
                 //获取点的位置
                 $.ajax({
                     type: "POST",
@@ -274,30 +513,18 @@ console.log(pointid)
                         $('#pointpositioninput').val(data.Address);
 
 
-                        if(data.Longitude!="") {
+                        if (data.Longitude != "") {
                             GetMarker(data.Longitude, data.Latitude);
                         }
-
-                        //$('#pointpositionpointid').val(data.Address);
-                        //$('#pointpositionpointid').val(data.Address);
-
-                        //alert(data[0].name)
-
-                        //addMarkers(data);
-                       // console.log(data)
-
                     }
                 });
 
 
-
             }
         });
-		$('.pointdelete').click(function(e){
-            if($(e.target).attr('class') == 'pointdelete')
-            {
-                if(confirm('确定删除？'))
-                {
+        $('.pointdelete').click(function (e) {
+            if ($(e.target).attr('class') == 'pointdelete') {
+                if (confirm('确定删除？')) {
                     var pointid = e.target.dataset.pointid;
                     $.ajax({
                         type: "POST",
@@ -306,12 +533,12 @@ console.log(pointid)
                         dataType: "json",
                         success: function (data) {
                             if (data) {
-                                $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>",function(){
+                                $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>", function () {
                                     bangdingshijian();
                                 });
                             }
                             else {
-                                  alert("删除失败")
+                                alert("删除失败")
                             }
                         }
                     });
@@ -320,11 +547,9 @@ console.log(pointid)
         });
 
 
-        $('.roaddelete').click(function(e){
-            if($(e.target).attr('class') == 'roaddelete')
-            {
-                if(confirm('删除时将同时删除该路线下的所有站点，删除后无法恢复，确定删除路线？'))
-                {
+        $('.roaddelete').click(function (e) {
+            if ($(e.target).attr('class') == 'roaddelete') {
+                if (confirm('删除时将同时删除该路线下的所有站点，删除后无法恢复，确定删除路线？')) {
                     var roadid = e.target.dataset.roadid;
                     $.ajax({
                         type: "POST",
@@ -333,7 +558,7 @@ console.log(pointid)
                         dataType: "json",
                         success: function (data) {
                             if (data) {
-                                window.location.href="../../roads/list";
+                                window.location.href = "../../roads/list";
 
                             }
                             else {
@@ -351,7 +576,7 @@ console.log(pointid)
                 $('#RoadPointPositionModal').modal('show');
 
 
-                var roadid=e.target.dataset.roadid;
+                var roadid = e.target.dataset.roadid;
 
                 //获取道路所有点的位置
                 $.ajax({
@@ -373,26 +598,75 @@ console.log(pointid)
         });
 
 
-
     }
+
+    function GetAllRoadImages() {
+        $.ajax({
+            type: "POST",
+            url: "/roads/getallimages",
+            data: "RoadID=" + roadid,
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var everstr = "<div class='col-md-3'><div class='thumbnail'><img src='/images/img1.png' class='img-rounded'/><div class='caption'><p><a href='#' class='btn btn-default' role='button'>删除</a></p></div></div></div>";
+
+
+                }
+            }
+        });
+    }
+
+
+    function SavePointContentEdit()
+    {
+        var pointid=$("#PointContentEditID").val();
+        console.log(pointid)
+        var content=$("#PointContentEditContent").code();
+
+        content = content.replace("//+/g", "%2B");
+                content = content.replace("//&/g", "%26");
+        console.log(content)
+        $.ajax({
+            type: "POST",
+            url: "/points/editpointcontent",
+            data: "PointID="+pointid+ "&Content="+ content,
+            async:false,
+            dataType: "json",
+            contentType:"application/x-www-form-urlencoded",
+            success: function (data) {
+                if (data == true) {
+                      alert("修改成功")
+                }
+                else {
+                     alert("修改失败")
+                }
+            }
+        });
+    }
+
 </script>
 <script type="text/javascript">
     Dropzone.options.myawesomedropzone = {
         paramName: "file", // The name that will be used to transfer the file
-        maxFilesize: 3, // MB
+        maxFilesize: 1, // MB
         addRemoveLinks: true,
         init: function () {
             this.on("complete", function (data) {
 
-                $.ajax({ url:"/roads/pointlistpart/<%=roadid%>", datatype:"html",context: document.body, success: function(data) {
-                    console.log(data);
-                    //$("#roadpointlistdiv").empty();
-                    //$("#roadpointlistdiv").append(data);
-                    $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>",function(){
-                        bangdingshijian();
-                    });
+                $.ajax({
+                    url: "/roads/pointlistpart/<%=roadid%>",
+                    datatype: "html",
+                    context: document.body,
+                    success: function (data) {
+                        console.log(data);
+                        //$("#roadpointlistdiv").empty();
+                        //$("#roadpointlistdiv").append(data);
+                        $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>", function () {
+                            bangdingshijian();
+                        });
 
-                }});
+                    }
+                });
 
                 //$("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>");
 
@@ -403,7 +677,7 @@ console.log(pointid)
     };
     Dropzone.options.roaddropzone = {
         paramName: "file", // The name that will be used to transfer the file
-        maxFilesize: 3, // MB
+        maxFilesize: 1, // MB
         addRemoveLinks: true,
         init: function () {
             this.on("complete", function (data) {
@@ -433,13 +707,13 @@ console.log(pointid)
         map.addOverlay(marker);
     }
 
-    function GetMarker(x,y)
-    {
-       map.clearOverlays();
+    function GetMarker(x, y) {
+        map.clearOverlays();
         var point = new BMap.Point(x, y);
         var marker = new BMap.Marker(point);
         map.addOverlay(marker);
         map.centerAndZoom(point, 11);
+
     }
     /*根据坐标获取地址*/
     function GetAddress(point) {
@@ -465,12 +739,10 @@ console.log(pointid)
     //添加多个覆盖物
     function addMarkers(points) {
         //map2.clearOverlays();
-        for(var i=0;i<points.length;i++)
-        {
-            var point=new BMap.Point(points[i].Longitude,points[i].Latitude);
+        for (var i = 0; i < points.length; i++) {
+            var point = new BMap.Point(points[i].Longitude, points[i].Latitude);
             var marker = new BMap.Marker(point);
-            if(i==0)
-            {
+            if (i == 0) {
                 map2.centerAndZoom(point, 11);
             }
             map2.addOverlay(marker);

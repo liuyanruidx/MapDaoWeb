@@ -4,6 +4,9 @@ var app = express();
 var fs = require('fs');
 var partials = require('express-partials');
 var avosExpressCookieSession = require('avos-express-cookie-session');
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
 // App 全局配置
 app.set('views','cloud/views');   // 设置模板目录
 app.set('view engine', 'ejs');    // 设置 template 引擎
@@ -218,7 +221,7 @@ app.post('/roads/getjson', function (req, res) {
 
 });
 
-
+//app.get()
 app.post('/points/getpointposition',function(req,res){
     var Point = AV.Object.extend("Point");
     var query = new AV.Query(Point);
@@ -234,8 +237,20 @@ app.post('/points/getpointposition',function(req,res){
     });
 
 });
+app.post('/points/getdetails',function(req,res){
+    var Point = AV.Object.extend("Point");
+    var query = new AV.Query(Point);
+    query.get(req.body.id, {
+        success: function (point) {
 
+            res.send(point);
+        },
+        error: function (object, error) {
 
+            res.send('false');
+        }
+    });
+});
 app.get('/roads/details/:id', function (req, res) {
     var currentUser = AV.User.current();
     var username;
@@ -317,7 +332,7 @@ app.get('/roads/pointlistpart/:id', function (req, res) {
                         var point = new Object();
                         point.id = object.id;
                         point.title = object.get('Title');
-                        point.content = object.get('Content');
+                        point.content = object.get('Content').replace(/<\/?.+?>/g,"");
                         points.push(point);
                         //console.log(points);
 
@@ -522,14 +537,19 @@ app.post('/points/editpointtitle', function (req, res) {
 });
 
 /* 修改站点内容 */
-app.post('/points/editpointcontent', function (req, res) {
+app.post('/points/editpointcontent', multipartMiddleware,function (req, res) {
+    //console.log(req)
+
+    console.log("asdf")
+    console.log(req.body)
+
 
     var Point = AV.Object.extend("Point");
     var query = new AV.Query(Point);
-    query.get(req.body.PointID, {
+    query.get(req.body.PointContentEditID.trim(), {
         success: function (point) {
             // The object was retrieved successfully.
-            point.set("Content", req.body.Content.trim());
+            point.set("Content", req.body.PointContentEditContent.trim());
             point.save();
             res.send('true');
         },
@@ -795,6 +815,7 @@ app.post('/roads/deleteroad', function (req, res) {
         }
     });
 });
+
 
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
 app.listen();
