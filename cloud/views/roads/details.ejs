@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-12">
         <div id="roadimg" data-roadid="<%= roadid %>"
-             style="width: 100%;height:400px;background-image: url('/roads/getroadfirstimage/<%= roadid %>');background-size: 100% 100%;">
+             style="width: 100%;height:400px;background-image: url('/roads/getroadfirstimage/<%= roadid %>');background-position: center; background-size: 100% auto;">
             <div style="background-color:rgba(255, 255, 255, 0.7);width: 67%;margin:0 auto;height: 100%;padding: 30px;">
                 <div class="row">
                     <div class="col-md-12">
@@ -772,6 +772,9 @@
     function addMarker(point) {
         map.clearOverlays();
         var marker = new BMap.Marker(point);
+        marker.enableDragging();
+        marker.addEventListener("dragend",dragendposition);
+
         map.addOverlay(marker);
     }
 
@@ -779,6 +782,8 @@
         map.clearOverlays();
         var point = new BMap.Point(x, y);
         var marker = new BMap.Marker(point);
+        marker.enableDragging();
+        marker.addEventListener("dragend",dragendposition);
         map.addOverlay(marker);
         map.centerAndZoom(point, 11);
         GetAddress(point);
@@ -798,7 +803,12 @@
 
 
 
+function dragendposition(e){
+    console.log(e.point)
+    //alert("asds")
 
+    GetAddress(e.point);
+}
 
 
 
