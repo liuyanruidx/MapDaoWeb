@@ -1077,7 +1077,7 @@ app.post("/users/pwdreset",function(req,res){
 
 app.post("/users/sendpwdresetemail",function(req,res){
 
-
+ console.log(req.body.useremail)
     AV.User.requestPasswordReset(req.body.useremail.trim(), {
         success: function() {
             // Password reset request was sent successfully
