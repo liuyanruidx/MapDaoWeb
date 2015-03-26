@@ -1,7 +1,7 @@
 <% for(var i = 0;i < points.length;i++){ %>
 <div class="col-md-6" style="margin-top: 20px;">
     <div class="pointimg" data-pointid="<%= points[i].id %>"
-         style="width: 100%;height:300px;background-image: url('/points/getpointfirstimage/<%= points[i].id+"?date="+new Date()%>');background-size: 100% 100%;">
+         style="width: 100%;height:300px;background-image: url('/points/getpointfirstimage/<%= points[i].id+"?date="+new Date()%>');background-position: center; background-size: 100% auto;">
         <div  style="background-color:rgba(255, 255, 255, 0.7);width:300px;height: 200px;top: 80px;position: absolute;left: 50px;padding: 10px;">
             <div class="row">
                 <div class="col-md-12">
