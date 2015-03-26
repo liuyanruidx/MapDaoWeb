@@ -391,7 +391,12 @@
 
     $().ready(function () {
         $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>", function () {
-            bangdingshijian();
+
+            <%if(isedit){%>
+                bangdingshijian();
+            <%}else{%>
+            <%}%>
+
         });
 
 

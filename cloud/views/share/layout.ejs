@@ -53,7 +53,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                  <%if(user){%>
-                <li><a href="" ><%=user%></a></li>
+                <li><a href="/users/info" title="点击查看我的信息" ><%=user%></a></li>
                 <li><a href="/users/logoff" >退出</a></li>
                 <%} else {%>
                 <li><a href="#"  data-toggle="modal" data-target="#LoginModal">登录</a></li>

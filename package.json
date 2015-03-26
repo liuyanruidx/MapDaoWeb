@@ -4,6 +4,8 @@
   "private": true, 
   "dependencies": {
     "express-partials": "~0.3.0",
-	"connect-multiparty":"~1.2.5"
+	"connect-multiparty":"~1.2.5",
+	"crypto":"0.0.3",
+	"dateformat":"1.0.11"
   }
 }

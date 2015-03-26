@@ -7,6 +7,9 @@ var avosExpressCookieSession = require('avos-express-cookie-session');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
+var dateFormat = require('dateformat');//日期格式化
+var crypto = require('crypto');//md5加密
+
 // App 全局配置
 app.set('views','cloud/views');   // 设置模板目录
 app.set('view engine', 'ejs');    // 设置 template 引擎
@@ -17,6 +20,7 @@ app.use(express.cookieParser('klp4e8b4sddjp2'));
 // 使用 avos-express-cookie-session 记录登录信息到 cookie
 app.use(avosExpressCookieSession({ cookie: { maxAge: 3600000 },fetchUser :true}));
 // 使用 Express 路由 API 服务 /hello 的 HTTP GET 请求
+
 app.get('/', function (req, res) {
     console.log('获取当前用户: %j', AV.User.current());
 
@@ -182,7 +186,7 @@ app.get('/roads/test', function (req, res) {
 
 app.post('/roads/getjson', function (req, res) {
 
- console.info(req.body.roadid)
+    console.info(req.body.roadid)
     var Point = AV.Object.extend("Point");
     var query = new AV.Query(Point);
     query.equalTo("RoadId", req.body.roadid);
@@ -222,7 +226,7 @@ app.post('/roads/getjson', function (req, res) {
 });
 
 //app.get()
-app.post('/points/getpointposition',function(req,res){
+app.post('/points/getpointposition', function (req, res) {
     var Point = AV.Object.extend("Point");
     var query = new AV.Query(Point);
     query.get(req.body.id, {
@@ -237,7 +241,7 @@ app.post('/points/getpointposition',function(req,res){
     });
 
 });
-app.post('/points/getdetails',function(req,res){
+app.post('/points/getdetails', function (req, res) {
     var Point = AV.Object.extend("Point");
     var query = new AV.Query(Point);
     query.get(req.body.id, {
@@ -256,6 +260,12 @@ app.get('/roads/details/:id', function (req, res) {
     var username;
     if (currentUser) {
         username = currentUser.getUsername();
+        var isedit=false;
+        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        {
+            isedit=true;
+        }
+
         var Road = AV.Object.extend("Road");
         var query = new AV.Query(Road);
         query.get(req.params.id, {
@@ -288,6 +298,7 @@ app.get('/roads/details/:id', function (req, res) {
                             title: title,
                             user: username,
                             content: content,
+                            isedit:isedit,
                             roadid: req.params.id,
                             points: points,
                             layout: 'share/layout'
@@ -332,7 +343,7 @@ app.get('/roads/pointlistpart/:id', function (req, res) {
                         var point = new Object();
                         point.id = object.id;
                         point.title = object.get('Title');
-                        point.content = object.get('Content').replace(/<\/?.+?>/g,"");
+                        point.content = object.get('Content').replace(/<\/?.+?>/g, "");
                         points.push(point);
                         //console.log(points);
 
@@ -537,7 +548,7 @@ app.post('/points/editpointtitle', function (req, res) {
 });
 
 /* 修改站点内容 */
-app.post('/points/editpointcontent', multipartMiddleware,function (req, res) {
+app.post('/points/editpointcontent', multipartMiddleware, function (req, res) {
     //console.log(req)
 
     console.log("asdf")
@@ -814,6 +825,333 @@ app.post('/roads/deleteroad', function (req, res) {
             res.send('false');
         }
     });
+});
+
+//邀请码
+app.get('/invitation/index', function (req, res) {
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+        var isedit=false;
+        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        {
+            isedit=true;
+        }
+
+
+        var nowdatetime = new Date();
+        //dateFormat(nowdatetime, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+        var aaa = dateFormat(nowdatetime, "yyyymmddHHMMss");
+
+
+
+
+
+        //得到自己所有邀请码
+
+
+        var invitationcodes = new Array();
+
+        var InvitationCode = AV.Object.extend("InvitationCode");
+        var query = new AV.Query(InvitationCode);
+        query.equalTo("CreateUserId",currentUser.id);
+        query.find({
+            success: function (results) {
+                //alert("Successfully retrieved " + results.length + " scores.");
+                // Do something with the returned AV.Object values
+                for (var i = 0; i < results.length; i++) {
+                    var object = results[i];
+
+                    var invitationcode = new Object();
+                    invitationcode.id = object.id;
+                    invitationcode.code = object.get('Code');
+                    invitationcode.isused = object.get('IsUsed');
+                    invitationcodes.push(invitationcode);
+
+                }
+                res.render('invitation/index', {
+                    datetime: aaa,
+                    user: username,
+                    isedit:isedit,
+                    invitationcodes:invitationcodes,
+
+                    layout: 'share/layout'
+                });
+
+            },
+            error: function (error) {
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
+    else {
+        res.redirect('/users/login');
+    }
+});
+
+app.get("/invitation/add", function (req, res) {
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+        var nowdatetime = new Date();
+        //dateFormat(nowdatetime, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+        var nowdatestr=   dateFormat(nowdatetime, "yyyymmddHHMMss");
+
+        var codestr=username+nowdatestr;
+
+        var md5 = crypto.createHash('md5');
+        md5.update(codestr);
+        var md5code = md5.digest('hex');
+        console.log(codestr);
+
+        console.log(md5code);
+
+        console.log(currentUser.id);
+        var InvitationCode = AV.Object.extend("InvitationCode");
+        var invitationcode = new InvitationCode();
+        invitationcode.set("Code",md5code );
+        invitationcode.set("CreateUserId",currentUser.id );
+        invitationcode.set("IsUsed",false );
+        invitationcode.save(null, {
+                success: function (invitationcode) {
+                    //res.send('true');
+                    //res.redirect('/invitation/index');
+                },
+                error: function (invitationcode, error) {
+                    //res.send('添加失败');
+                   // res.redirect('/invitation/index');
+                }
+            }
+        );
+
+
+
+        res.redirect('/invitation/index');
+
+    }
+
+
+
+
+
+
+
+});
+
+app.get("/users/applyforedit",function(req,res){
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+
+        console.log(currentUser);
+        console.log(currentUser.attributes.UserRoleId);
+
+        var isedit=false;
+        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        {
+            isedit=true;
+        }
+
+
+
+        res.render('users/applyforedit', {
+
+            user: username,
+            isedit:isedit,
+            layout: 'share/layout'
+        });
+    }
+    else {
+        res.redirect('/users/login');
+    }
+    });
+
+
+app.post("/users/applyforedit",function(req,res){
+
+
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+
+
+        var InvitationCode = AV.Object.extend("InvitationCode");
+        var invitationquery = new AV.Query(InvitationCode);
+        invitationquery.equalTo("Code", req.body.invitationcode);
+        invitationquery.equalTo("IsUsed", false);
+        invitationquery.first({
+            success: function (invitationquery) {
+
+                if (invitationquery != null) {
+                    //imgurl = queryimg.get('Image').url();
+                    invitationquery.set("IsUsed",true);
+                    invitationquery.set("UseUserId",currentUser.id);
+                    invitationquery.save();
+                    currentUser.set("UserRoleId","5855116417e4b0dbfd5ebdaba2");
+                    currentUser.save();
+                    res.redirect('/users/info');
+                }
+                else {
+                    res.redirect('/users/applyforedit');
+
+                }
+
+
+
+
+            },
+            error: function (error) {
+                //alert("Error: " + error.code + " " + error.message);
+                res.redirect('/users/info');
+            }
+        });
+
+
+
+    }
+    else {
+        res.redirect('/users/login');
+    }
+
+
+});
+
+app.get("/users/info",function(req,res){
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+       var useremail=currentUser.attributes.email;
+        console.log(currentUser);
+
+        res.render('users/info', {
+
+            user: username,
+            useremail:useremail,
+            layout: 'share/layout'
+        });
+    }
+    else {
+        res.redirect('/users/login');
+    }
+});
+
+app.get("/users/pwdreset",function(req,res){
+    console.log(req.params)
+    var  username=req.query.username;
+    res.render('users/pwdreset', { user: username, layout: 'share/layout'});
+});
+app.post("/users/pwdreset",function(req,res){
+    var  username=req.body.username;
+
+
+    var query = new AV.Query(AV.User);
+    query.equalTo("username", username);  // find all the women
+    query.first({
+        success: function(userinfo) {
+            // Do stuff
+            console.log(userinfo)
+
+            if(userinfo!=null)
+            {
+
+                var useremail=userinfo.attributes.email;
+                res.render('users/sendpwdresetemail', { user: username,useremail:useremail, layout: 'share/layout'});
+
+            }
+            else
+            {
+                //res.send("<script language='javascript'> alert('该用户不存在');</script>")
+
+
+             res.send("<script language='javascript'>if(confirm('该用户不存在！')){document.location.replace('/users/pwdreset')}else{document.location.replace('/users/pwdreset')};</script>");
+            }
+        }
+    });
+
+});
+
+app.post("/users/sendpwdresetemail",function(req,res){
+
+
+    AV.User.requestPasswordReset(req.body.useremail, {
+        success: function() {
+            // Password reset request was sent successfully
+            res.render('users/sendpwdresetemailresult', {
+                user:null,
+                resultmessage:"发送重置密码邮件成功！",
+                layout: 'share/layout'
+            });
+        },
+        error: function(error) {
+            // Show the error message somewhere
+            res.render('users/sendpwdresetemailresult', {
+                user: null,
+                resultmessage:"发送重置密码邮件失败！",
+                layout: 'share/layout'
+            });
+        }
+    });
+});
+
+app.get("/users/changepassword",function(req,res){
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+
+        console.log(currentUser);
+
+        res.render('users/changepassword', {
+
+            user: username,
+
+            layout: 'share/layout'
+        });
+    }
+    else {
+        res.redirect('/users/login');
+    }
+});
+
+app.post("/users/changepassword",function(req,res){
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+
+        console.log(currentUser);
+
+        currentUser.updatePassword(req.body.oldpassword.trim(),req.body.newpassword.trim(),{
+            success: function(){
+                //更新成功
+
+                res.render('users/changepwdresult', {
+                    user: username,
+                    resultmessage:"密码修改成功！",
+                    layout: 'share/layout'
+                });
+
+            },
+            error: function(err){
+                //更新失败
+               // console.dir(err);
+                res.render('users/changepwdresult', {
+                    user: username,
+                    resultmessage:"密码修改失败！",
+                    layout: 'share/layout'
+                });
+
+            }
+        });
+    }
+    else {
+        res.redirect('/users/login');
+    }
 });
 
 
