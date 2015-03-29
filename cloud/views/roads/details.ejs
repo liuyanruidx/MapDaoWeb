@@ -1,4 +1,4 @@
-﻿<ol class="breadcrumb">
+<ol class="breadcrumb">
     <li><a href="#">首页</a></li>
     <li><a href="#">路线</a></li>
     <li class="active"><%= title %></li>
@@ -51,7 +51,10 @@
             <div class="panel-body">
                 <form id="addpointform" name="addpointform" role="form" action="/points/pointadd" method="post">
                     <input type="hidden" name="RoadId" value="<%= roadid %>">
-
+                    <div class="form-group">
+                        <input id="switch-wenben" name="switch-wenben" type="checkbox" data-label-text="纯文本" />
+                        <input id="wenbenis" name="wenbenis" type="hidden">
+                    </div>
                     <div class="form-group">
                         <label for="InputTitle">标题</label>
                         <input type="text" class="form-control" id="InputTitle" name="InputTitle" placeholder="标题">
@@ -207,29 +210,30 @@
 </div>
 
 
-
-<div class="modal fade " id="PointContentEditModal"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade " id="PointContentEditModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg">
 
 
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="PointTitleEditLabel" style="text-align: center;">阜成门</h4>
             </div>
             <!--<div class="modal-body">-->
-            <form id="pointcontentform" name="pointcontentform" role="form" action="/points/editpointcontent" method="post"enctype="multipart/form-data" target="hidden_frame">
+            <form id="pointcontentform" name="pointcontentform" role="form" action="/points/editpointcontent"
+                  method="post" enctype="multipart/form-data" target="hidden_frame">
                 <iframe name='hidden_frame' id="hidden_frame" style='display: none'></iframe>
                 <input type="hidden" id="PointContentEditID" name="PointContentEditID"/>
 
-                    <textarea id="PointContentEditContent" name="PointContentEditContent" ></textarea>
-            <!--</div>-->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <!--<button type="button" class="btn btn-primary" onclick="SavePointContentEdit()">保存</button>-->
-                <button type="submit" class="btn btn-primary">保存</button>
-            </div>
+                <textarea id="PointContentEditContent" name="PointContentEditContent"></textarea>
+                <!--</div>-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <!--<button type="button" class="btn btn-primary" onclick="SavePointContentEdit()">保存</button>-->
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
 
             </form>
 
@@ -244,7 +248,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">
@@ -281,38 +286,41 @@
                 </div>
                 <div class="modal-body">
                     <!--<input type="text" class="form-control" id="pointpositioninput" name="pointpositioninput"-->
-                           <!--placeholder="输入地址">-->
-                    <div id="r-result"  style="width: 100%;"><input type="text" class="form-control" id="pointpositioninput" size="20" value="北京" style="width:100%;" /></div>
-                    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:100%;height:auto; display: none;"></div>
+                    <!--placeholder="输入地址">-->
+                    <div id="r-result" style="width: 100%;"><input type="text" class="form-control"
+                                                                   id="pointpositioninput" size="20" value="北京"
+                                                                   style="width:100%;"/></div>
+                    <div id="searchResultPanel"
+                         style="border:1px solid #C0C0C0;width:100%;height:auto; display: none;"></div>
 
                     <input type="hidden" id="pointpositionpointid" name="pointpositionpointid">
 
                     <input type="hidden" id="pointpositionlongitude" name="pointpositionlongitude">
                     <input type="hidden" id="pointpositionlatitude" name="pointpositionlatitude">
-<br/>
-<div class="row">
-    <div class="col-md-3">
-        <p>
-            <!--data-handle-width="50"-->
-            <input id="switch-zuobiao"  type="checkbox" data-label-text="经纬度"  >
-        </p>
-    </div>
-    <div class="col-md-3 jingquezuobiaodiv" style="display: none;" >
-        <input type="text" class="form-control" id="pointpositionlongitudeset" name="pointpositionlongitudeset">
+                    <br/>
 
-    </div>
-    <div class="col-md-3 jingquezuobiaodiv" style="display: none;">
-        <input type="text" class="form-control" id="pointpositionlatitudeset" name="pointpositionlatitudeset">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>
+                                <!--data-handle-width="50"-->
+                                <input id="switch-zuobiao" type="checkbox" data-label-text="经纬度">
+                            </p>
+                        </div>
+                        <div class="col-md-3 jingquezuobiaodiv" style="display: none;">
+                            <input type="text" class="form-control" id="pointpositionlongitudeset"
+                                   name="pointpositionlongitudeset">
 
-    </div>
-    <div class="col-md-3 jingquezuobiaodiv" style="display: none;">
-       <button class="btn btn-info" type="button" id="zuobiaoqueding">确定</button>
+                        </div>
+                        <div class="col-md-3 jingquezuobiaodiv" style="display: none;">
+                            <input type="text" class="form-control" id="pointpositionlatitudeset"
+                                   name="pointpositionlatitudeset">
 
-    </div>
-</div>
+                        </div>
+                        <div class="col-md-3 jingquezuobiaodiv" style="display: none;">
+                            <button class="btn btn-info" type="button" id="zuobiaoqueding">确定</button>
 
-
-
+                        </div>
+                    </div>
 
 
                     <div id="allmap" style="width: 570px;height: 350px;margin-top: 10px;"></div>
@@ -330,13 +338,13 @@
 
 <script src="/javascripts/dropzone/dropzone.min.js"></script>
 
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="/javascripts/summernote-master/dist/summernote.css">
 <script type="text/javascript" src="/javascripts/summernote-master/dist/summernote.js"></script>
 <script src="/javascripts/summernote-master/lang/summernote-zh-CN.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#PointContentEditContent').summernote({
             height: 300,
             tabsize: 2,
@@ -374,8 +382,11 @@
 
 
 <style type="text/css">
-    #r-result{width:100%;}
-    .tangram-suggestion-main{
+    #r-result {
+        width: 100%;
+    }
+
+    .tangram-suggestion-main {
         z-index: 999999999999;
     }
 </style>
@@ -393,7 +404,7 @@
         $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>", function () {
 
             <%if(isedit){%>
-                bangdingshijian();
+            bangdingshijian();
             <%}else{%>
             <%}%>
 
@@ -409,8 +420,7 @@
         });
 
 
-
-        $('#pointcontentform').ajaxForm(function(){
+        $('#pointcontentform').ajaxForm(function () {
             alert("提交成功");
         });
 
@@ -474,26 +484,24 @@
             });
         });
         /*修改内容*/
-//        $('.pointcontent').blur(function (e) {
-//            var pointid = e.target.dataset.pointid;
-//            var content = e.target.value;
-//            $.ajax({
-//                type: "POST",
-//                url: "/points/editpointcontent",
-//                data: "PointID=" + pointid + "&Content=" + content,
-//                dataType: "json",
-//                success: function (data) {
-//                    if (data == true) {
-//                        //  alert("修改成功")
-//                    }
-//                    else {
-//                        //  alert("修改失败")
-//                    }
-//                }
-//            });
-//        });
-
-
+        $('.pointcontent_text').blur(function (e) {
+            var pointid = e.target.dataset.pointid;
+            var content = e.target.value;
+            $.ajax({
+                type: "POST",
+                url: "/points/editpointcontenttext",
+                data: "PointID=" + pointid + "&Content=" + content,
+                dataType: "json",
+                success: function (data) {
+                    if (data == true) {
+                        //  alert("修改成功")
+                    }
+                    else {
+                        //  alert("修改失败")
+                    }
+                }
+            });
+        });
 
 
         $('.pointimg').click(function (e) {
@@ -508,7 +516,7 @@
             //$('#PointTitleEditLabel').html(e.target.dataset.pointid)
             $('#PointContentEditID').val(e.target.dataset.pointid)
 
-            var pointid= e.target.dataset.pointid.trim();
+            var pointid = e.target.dataset.pointid.trim();
             console.log(pointid)
 
 
@@ -516,7 +524,7 @@
             $.ajax({
                 type: "POST",
                 url: "/points/getpointposition",
-                data: 'id='+pointid,
+                data: 'id=' + pointid,
                 dataType: "json",
                 success: function (data) {
                     //alert('asdfasdf')
@@ -529,11 +537,7 @@
             });
 
 
-
-
-
         });
-
 
 
         $('#roadimg').click(function (e) {
@@ -647,26 +651,31 @@
         });
 
 
-
-        $('#switch-zuobiao').on('switchChange.bootstrapSwitch', function(event, state) {
+        $('#switch-zuobiao').on('switchChange.bootstrapSwitch', function (event, state) {
             //console.log(this); // DOM element
             //console.log(event); // jQuery event
             console.log(state); // true | false
-            if(state)
-            {
+            if (state) {
                 $('.jingquezuobiaodiv').fadeIn();
             }
-            else
-            {
+            else {
                 $('.jingquezuobiaodiv').fadeOut();
 
             }
         });
 
-        $('#zuobiaoqueding').click(function(e){
-            var x=$('#pointpositionlongitudeset').val().trim();
-            var y=$('#pointpositionlatitudeset').val().trim();
-            GetMarker(x,y)
+
+        $('#switch-wenben').on('switchChange.bootstrapSwitch', function (event, state) {
+            //console.log(this); // DOM element
+            //console.log(event); // jQuery event
+            console.log(state); // true | false
+            $("#wenbenis").val(state);
+        });
+
+        $('#zuobiaoqueding').click(function (e) {
+            var x = $('#pointpositionlongitudeset').val().trim();
+            var y = $('#pointpositionlatitudeset').val().trim();
+            GetMarker(x, y)
         });
     }
 
@@ -687,28 +696,27 @@
     }
 
 
-    function SavePointContentEdit()
-    {
-        var pointid=$("#PointContentEditID").val();
+    function SavePointContentEdit() {
+        var pointid = $("#PointContentEditID").val();
         console.log(pointid)
-        var content=$("#PointContentEditContent").code();
+        var content = $("#PointContentEditContent").code();
 
         content = content.replace("//+/g", "%2B");
-                content = content.replace("//&/g", "%26");
+        content = content.replace("//&/g", "%26");
         console.log(content)
         $.ajax({
             type: "POST",
             url: "/points/editpointcontent",
-            data: "PointID="+pointid+ "&Content="+ content,
-            async:false,
+            data: "PointID=" + pointid + "&Content=" + content,
+            async: false,
             dataType: "json",
-            contentType:"application/x-www-form-urlencoded",
+            contentType: "application/x-www-form-urlencoded",
             success: function (data) {
                 if (data == true) {
-                      alert("修改成功")
+                    alert("修改成功")
                 }
                 else {
-                     alert("修改失败")
+                    alert("修改失败")
                 }
             }
         });
@@ -760,7 +768,6 @@
 <script type="text/javascript">
 
 
-
     // 百度地图API功能--但个点地图
     var map = new BMap.Map("allmap");    // 创建Map实例
     map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
@@ -778,7 +785,7 @@
         map.clearOverlays();
         var marker = new BMap.Marker(point);
         marker.enableDragging();
-        marker.addEventListener("dragend",dragendposition);
+        marker.addEventListener("dragend", dragendposition);
 
         map.addOverlay(marker);
     }
@@ -788,7 +795,7 @@
         var point = new BMap.Point(x, y);
         var marker = new BMap.Marker(point);
         marker.enableDragging();
-        marker.addEventListener("dragend",dragendposition);
+        marker.addEventListener("dragend", dragendposition);
         map.addOverlay(marker);
         map.centerAndZoom(point, 11);
         GetAddress(point);
@@ -807,84 +814,63 @@
     }
 
 
+    function dragendposition(e) {
+        console.log(e.point)
+        //alert("asds")
 
-function dragendposition(e){
-    console.log(e.point)
-    //alert("asds")
-
-    GetAddress(e.point);
-}
-
+        GetAddress(e.point);
+    }
 
 
     function G(id) {
         return document.getElementById(id);
     }
     var ac = new BMap.Autocomplete(
-            {"input" : "pointpositioninput"
-                ,"location" : map
+            {
+                "input": "pointpositioninput"
+                , "location": map
             });
 
-    ac.addEventListener("onhighlight", function(e) {  //˳Ҫ؅՚Ђ-ҭʏք˂ݾ
+    ac.addEventListener("onhighlight", function (e) {  //˳Ҫ؅՚Ђ-ҭʏք˂ݾ
         var str = "";
         var _value = e.fromitem.value;
         var value = "";
         if (e.fromitem.index > -1) {
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
         }
         str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
 
         value = "";
         if (e.toitem.index > -1) {
             _value = e.toitem.value;
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
         }
         str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
         G("searchResultPanel").innerHTML = str;
     });
 
     var myValue;
-    ac.addEventListener("onconfirm", function(e) {    //˳Ҫ֣ܷЂ-ҭ۳ք˂ݾ
+    ac.addEventListener("onconfirm", function (e) {    //˳Ҫ֣ܷЂ-ҭ۳ք˂ݾ
         var _value = e.item.value;
-        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
 
         setPlace();
     });
 
-    function setPlace(){
+    function setPlace() {
         map.clearOverlays();    //ȥԽ֘ͼʏ̹Ԑزهϯ
-        function myFun(){
+        function myFun() {
             var pp = local.getResults().getPoi(0).point;    //ܱȡ֚һٶׇŜ̷̑քޡڻ
             map.centerAndZoom(pp, 18);
             map.addOverlay(new BMap.Marker(pp));    //ͭݓҪע
         }
+
         var local = new BMap.LocalSearch(map, { //ׇŜ̷̑
             onSearchComplete: myFun
         });
         local.search(myValue);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //所有地点地图
