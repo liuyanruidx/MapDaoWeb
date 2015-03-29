@@ -1,4 +1,34 @@
 <% for(var i = 0;i < points.length;i++){ %>
+
+
+
+<%if(points[i].type=="文本"){%>
+<div class="col-md-12" style="margin-top: 20px;">
+    <div data-pointid="<%= points[i].id %>"
+         style="width: 100%;height:200px;">
+        <div  style="background-color:rgba(255, 255, 255, 0.7);  width: 100%;  margin: 0 auto;  height: 100%;  padding: 30px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <input class="title_input" type="text" class="pointtitle" data-pointid="<%= points[i].id %>"
+                           value="<%= points[i].title %>"
+                           style="font-size: 18px;"
+                           placeholder="请输入标题">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                        <textarea class="content_input pointcontent_text" rows="7" data-pointid="<%= points[i].id %> "
+                                  style="margin-top: 10px;resize:none;font-size: 14px;padding: 5px;"
+                                  placeholder="简介描述"><%= points[i].content %></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img class="pointdelete" data-pointid="<%= points[i].id %>" src="/images/iconfont-shanchu.png"  width="30" height="30"
+         style="position: absolute;right: 20px;bottom: 10px;"/>
+
+</div>
+<%}else{%>
 <div class="col-md-6" style="margin-top: 20px;">
     <div class="pointimg" data-pointid="<%= points[i].id %>"
          style="width: 100%;height:300px;background-image: url('/points/getpointfirstimage/<%= points[i].id+"?date="+new Date()%>');background-position: center; background-size: 100% auto;">
@@ -21,9 +51,10 @@
             </div>
         </div>
     </div>
-	<img class="pointdelete" data-pointid="<%= points[i].id %>" src="/images/iconfont-shanchu.png"  width="30" height="30"
+    <img class="pointdelete" data-pointid="<%= points[i].id %>" src="/images/iconfont-shanchu.png"  width="30" height="30"
          style="position: absolute;right: 20px;bottom: 10px;"/>
     <img class="pointpositionset" data-pointid="<%= points[i].id %>" src="/images/iconfont-dingwei.png" width="30" height="30"
          style="position: absolute;right: 60px;bottom: 10px;"/>
 </div>
+<%}%>
 <% } %>
