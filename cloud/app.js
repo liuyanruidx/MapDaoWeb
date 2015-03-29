@@ -1033,7 +1033,7 @@ app.post("/users/applyforedit",function(req,res){
                     invitationquery.set("IsUsed",true);
                     invitationquery.set("UseUserId",currentUser.id);
                     invitationquery.save();
-                    currentUser.set("UserRoleId","5855116417e4b0dbfd5ebdaba2");
+                    currentUser.set("UserRoleId","55116417e4b0dbfd5ebdaba2");
                     currentUser.save();
                     res.redirect('/users/info');
                 }
