@@ -132,6 +132,7 @@ app.get('/roads/list', function (req, res) {
 
         var Road = AV.Object.extend("Road");
         var query = new AV.Query(Road);
+        query.descending("createdAt");
         //query.equalTo("RoadId",req.params.id);
         query.find({
             success: function (results) {
@@ -278,6 +279,7 @@ app.get('/roads/details/:id', function (req, res) {
                 var Point = AV.Object.extend("Point");
                 var query = new AV.Query(Point);
                 query.equalTo("RoadId", req.params.id);
+                query.ascending("createdAt");
                 query.find({
                     success: function (results) {
                         //alert("Successfully retrieved " + results.length + " scores.");
@@ -287,6 +289,7 @@ app.get('/roads/details/:id', function (req, res) {
 
                             var point = new Object();
                             point.id = object.id;
+                            point.type=object.get('Type');
                             point.title = object.get('Title');
                             point.content = object.get('Content');
                             points.push(point);
@@ -333,6 +336,7 @@ app.get('/roads/pointlistpart/:id', function (req, res) {
             var Point = AV.Object.extend("Point");
             var query = new AV.Query(Point);
             query.equalTo("RoadId", req.params.id);
+            query.ascending("createdAt");
             query.find({
                 success: function (results) {
                     //alert("Successfully retrieved " + results.length + " scores.");
@@ -342,6 +346,7 @@ app.get('/roads/pointlistpart/:id', function (req, res) {
 
                         var point = new Object();
                         point.id = object.id;
+                        point.type=object.get('Type');
                         point.title = object.get('Title');
                         point.content = object.get('Content').replace(/<\/?.+?>/g, "");
                         points.push(point);
@@ -508,10 +513,21 @@ app.get('/roads/getroadfirstimage/:id', function (req, res) {
 /* 添加路线 */
 app.post('/points/pointadd', function (req, res) {
 
+
+
     var Point = AV.Object.extend("Point");
     var point = new Point();
 
+    if(req.body.wenbenis=="true")
+    {
+        point.set("Type", "文本");
 
+    }
+    else
+    {
+        point.set("Type","站点");
+
+    }
     point.set("RoadId", req.body.RoadId);
     point.set("Title", req.body.InputTitle.trim());
     point.set("Content", req.body.InputContent.trim());
@@ -561,6 +577,32 @@ app.post('/points/editpointcontent', multipartMiddleware, function (req, res) {
         success: function (point) {
             // The object was retrieved successfully.
             point.set("Content", req.body.PointContentEditContent.trim());
+            point.save();
+            res.send('true');
+        },
+        error: function (object, error) {
+            // The object was not retrieved successfully.
+            // error is a AV.Error with an error code and description.
+            res.send('false');
+        }
+    });
+});
+
+
+/* 修改站点内容 */
+app.post('/points/editpointcontenttext', multipartMiddleware, function (req, res) {
+    //console.log(req)
+
+    console.log("asdf")
+    console.log(req.body)
+
+
+    var Point = AV.Object.extend("Point");
+    var query = new AV.Query(Point);
+    query.get(req.body.PointID.trim(), {
+        success: function (point) {
+            // The object was retrieved successfully.
+            point.set("Content", req.body.Content.trim());
             point.save();
             res.send('true');
         },
@@ -991,7 +1033,7 @@ app.post("/users/applyforedit",function(req,res){
                     invitationquery.set("IsUsed",true);
                     invitationquery.set("UseUserId",currentUser.id);
                     invitationquery.save();
-                    currentUser.set("UserRoleId","55116417e4b0dbfd5ebdaba2");
+                    currentUser.set("UserRoleId","5855116417e4b0dbfd5ebdaba2");
                     currentUser.save();
                     res.redirect('/users/info');
                 }
@@ -1153,6 +1195,7 @@ app.post("/users/changepassword",function(req,res){
         res.redirect('/users/login');
     }
 });
+
 
 
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
