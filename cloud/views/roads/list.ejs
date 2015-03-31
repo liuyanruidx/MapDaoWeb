@@ -1,3 +1,5 @@
+
+<%if(isedit){%>
 <div class="row">
     <div class="col-md-12">
 
@@ -15,21 +17,21 @@
 
                 <div id="collapseListGroup1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1" aria-expanded="false" style="height: 0px;">
                     <div class="panel-body">
-                    <form id="addroadform" name="addroadform" role="form" action="/roads/roadadd" method="post">
-                        <div class="form-group">
-                            <label for="InputTitle">标题</label>
-                            <input type="text" class="form-control" id="InputTitle" name="InputTitle"
-                                   placeholder="标题">
-                        </div>
-                        <div class="form-group">
-                            <label for="InputContent">内容</label>
+                        <form id="addroadform" name="addroadform" role="form" action="/roads/roadadd" method="post">
+                            <div class="form-group">
+                                <label for="InputTitle">标题</label>
+                                <input type="text" class="form-control" id="InputTitle" name="InputTitle"
+                                       placeholder="标题">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputContent">内容</label>
                                 <textarea rows="8" class="form-control" id="InputContent" name="InputContent"
                                           placeholder="内容"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-default">提交</button>
-                    </form>
+                            </div>
+                            <button type="submit" class="btn btn-default">提交</button>
+                        </form>
 
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,6 +39,10 @@
     </div>
 
 </div>
+<%}else{%>
+
+<%}%>
+
 <% for(var i = 0;i < roads.length;i++){ %>
 <div class="row" style="margin-top: 20px;">
 

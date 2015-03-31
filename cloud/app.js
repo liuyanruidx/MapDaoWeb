@@ -126,8 +126,12 @@ app.get('/roads/list', function (req, res) {
     if (currentUser) {
         console.log(currentUser.getUsername());
         username = currentUser.getUsername();
-    }
-    if (currentUser) {
+
+        var isedit=false;
+        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        {
+            isedit=true;
+        }
         var roads = new Array();
 
         var Road = AV.Object.extend("Road");
@@ -149,7 +153,7 @@ app.get('/roads/list', function (req, res) {
 
                 }
 
-                res.render('roads/list', {roads: roads, user: username, layout: 'share/layout'});
+                res.render('roads/list', {roads: roads, user: username, isedit:isedit,layout: 'share/layout'});
             },
             error: function (error) {
                 alert("Error: " + error.code + " " + error.message);
@@ -1195,7 +1199,6 @@ app.post("/users/changepassword",function(req,res){
         res.redirect('/users/login');
     }
 });
-
 
 
 // 最后，必须有这行代码来使 express 响应 HTTP 请求

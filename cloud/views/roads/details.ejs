@@ -1,4 +1,4 @@
-<ol class="breadcrumb">
+﻿<ol class="breadcrumb">
     <li><a href="#">首页</a></li>
     <li><a href="#">路线</a></li>
     <li class="active"><%= title %></li>
@@ -42,6 +42,8 @@
 <div id="roadpointlistdiv" class="row">
 
 </div>
+
+<%if(isedit){%>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -70,6 +72,10 @@
         </div>
     </div>
 </div>
+<%}else{%>
+<%}%>
+
+
 <div class="modal fade" id="RoadImgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
