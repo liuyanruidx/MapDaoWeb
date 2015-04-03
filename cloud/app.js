@@ -6,7 +6,7 @@ var partials = require('express-partials');
 var avosExpressCookieSession = require('avos-express-cookie-session');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
-
+var url = require('url');
 var dateFormat = require('dateformat');//日期格式化
 var crypto = require('crypto');//md5加密
 
@@ -690,7 +690,7 @@ app.get('/points/getpointimage/:id', function (req, res) {
 });
 app.get('/points/getpointfirstimage/:id', function (req, res) {
 
-
+    var args = url.parse(req.url, true).query;
     var Point_Image = AV.Object.extend("Point_Image");
     var queryimg = new AV.Query(Point_Image);
     queryimg.equalTo("PointId", req.params.id);
