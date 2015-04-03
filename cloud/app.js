@@ -699,7 +699,16 @@ app.get('/points/getpointfirstimage/:id', function (req, res) {
             //console.log(point.id)
 
             if (queryimg != null) {
-                imgurl = queryimg.get('Image').url();
+                if (args.w != null && args.h != null) {
+                    //imgurl = queryimg.get('Image').thumbnailURL(args.w, args.h)+"?watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL1RFd1RxV2Q2S0NyYmlVb0lnV0I0andNaTlmd1JDUnZhMXZyNXBNZncucG5n";
+                    //imgurl = queryimg.get('Image').url()+"?imageView/1/w/"+args.w+"/h/"+args.h+"|watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL0hjUThtaW1henM5aU83YUNPdmVZcFk4eGM2emduYkVLZ3lUazc2b0MucG5n/dissolve/70";
+                    imgurl = queryimg.get('Image').thumbnailURL(args.w, args.h);
+                }
+                else {
+                    imgurl = queryimg.get('Image').url();
+                    //imgurl = queryimg.get('Image').url()+"?watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL1RFd1RxV2Q2S0NyYmlVb0lnV0I0andNaTlmd1JDUnZhMXZyNXBNZncucG5n";
+                    //imgurl = queryimg.get('Image').url()+"?watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL0hjUThtaW1henM5aU83YUNPdmVZcFk4eGM2emduYkVLZ3lUazc2b0MucG5n/dissolve/70";
+                }
             }
             else {
                 imgurl = "/images/img1.png";
