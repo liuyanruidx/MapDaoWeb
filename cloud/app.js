@@ -1213,6 +1213,19 @@ app.get("/company/about",function(req,res){
         layout: null
     });
 });
+app.get("/help/edithelp",function(req,res){
 
+
+    var currentUser = AV.User.current();
+    var username = null;
+    if (currentUser) {
+        console.log(currentUser);
+        username = AV.User.current().getUsername();
+    }
+
+    res.render('help/edithelp', {
+        title: 'Express', user: username, layout: 'share/layout'
+    });
+});
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
 app.listen();
