@@ -474,7 +474,6 @@
         $('.pointtitle').blur(function (e) {
             var pointid = e.target.dataset.pointid;
             var title = e.target.value;
-            alert(title)
             $.ajax({
                 type: "POST",
                 url: "/points/editpointtitle",
