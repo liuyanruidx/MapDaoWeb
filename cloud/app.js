@@ -1208,7 +1208,11 @@ app.post("/users/changepassword",function(req,res){
         res.redirect('/users/login');
     }
 });
-
+app.get("/company/about",function(req,res){
+    res.render('company/about', {
+        layout: null
+    });
+});
 
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
 app.listen();

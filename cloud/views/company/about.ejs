@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>脉到｜团队成员介绍</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width' />
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js'></script>
+    <script src="/javascripts/jquery/jquery-2.1.3.min.js"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.css' rel='stylesheet' />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=2wAKn6gsRG7odGMeWfoAm6fF"></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:80px;bottom:0;width:100%; }
+        #header {height: 80px;background-image: url("/images/header_pattern.png");}
+        #header img {height: 80px;}
+        @media screen and (max-width: 480px) {
+            #map {top:50px;}
+            #header {height: 50px;}
+            #header img {height: 50px;}
+        }
+    </style>
+</head>
+<body>
+<div id="header"  style="overflow: hidden;"><img src="/images/header.png"/></div>
+<div id="map"></div>
+<div id="footer"></div>
+<script>
+    function addFace() {
+//            $(".leaflet-shadow-pane").css("z-index", $(".leaflet-marker-pane").css("z-index"));
+//            console.log($(".leaflet-marker-pane").children().eq(0).css("z-index"));
+        $(".leaflet-shadow-pane").children().each(function(i){
+            console.log(i);
+            $(this).css("z-index", $(".leaflet-marker-pane").children().eq(i).css("z-index"));
+        });
+    }
+    var Geocoder = new BMap.Geocoder();
+    // Provide your access token
+    L.mapbox.accessToken = 'pk.eyJ1IjoiYW5keXh4c2QiLCJhIjoibV9OWm0tUSJ9.gFNKxtL6cMvttmlC_5y6Hg';
+    // Create a map in the div #map
+    var map = L.mapbox.map('map', 'andyxxsd.jkd20k79')
+            .setView([32.843, 105.029], 4);
+    var feature = L.mapbox.featureLayer();
+    if (screen.width>480) {
+        feature.on('click', function(e) {
+            map.panTo(e.layer.getLatLng());
+        });
+    }
+    $.getJSON("/json/aboutusdata.json", function(stuff){
+        var geojson = [];
+        for (var i in stuff) {
+            !function addPointToMap(i) {
+                var cur = stuff[i];
+                Geocoder.getPoint(cur.location, function (point) {
+                    if (point) {
+                        var newMarker = {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [point.lng, point.lat]
+                            },
+                            "properties": {
+                                "title": cur.name,
+                                "description": cur.description,
+                                "marker-color": "#fc4353",
+                                "marker-size": "large",
+                                "icon": {
+                                    "iconUrl": "/images/Markers/Marker_"+i+".png",
+                                    "iconSize": [86.8, 100],
+                                    "iconAnchor": [43.4, 100],
+//                                        "shadowUrl": cur.face,
+//                                        "shadowSize": [72, 72], // size of the icon
+//                                        "shadowAnchor": [35, 93], // point of the icon which will correspond to marker's location
+                                    "popupAnchor": [0, -100] // point from which the popup should open relative to the iconAnchor
+                                },
+                                "face": {
+                                    "faceUrl": cur.face,
+                                    "faceSize": [72, 72],
+                                    "faceAnchor": [8, 7]
+                                }
+                            }
+                        };
+                        geojson.push(newMarker);
+                        feature.setGeoJSON(geojson).addTo(map).on('layeradd', function(e) {
+                            var marker = e.layer,
+                                    feature = marker.feature;
+                            marker.setIcon(L.icon(feature.properties.icon));
+                            var icon = e.layer._icon;
+                            var $icon = $(icon);
+                            icon.style.backgroundRepeat = "no-repeat";
+                            $icon.css("background-image", "url("+feature.properties.face.faceUrl+")");
+                            $icon.css("background-size", feature.properties.face.faceSize[0]+"px "+feature.properties.face.faceSize[1]+"px");
+                            $icon.css("background-position", feature.properties.face.faceAnchor[0]+"px "+feature.properties.face.faceAnchor[1]+"px");
+//                                console.log(e.layer._icon);
+//                                console.log(feature.properties.face);
+                            addFace();
+                        });
+//                            console.log(i, cur.name);
+//                            console.log(feature.getGeoJSON());
+                    }
+                }, cur.location);
+            }(i);
+        }
+    });
+
+
+
+</script>
+</body>
+</html>
