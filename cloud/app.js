@@ -31,7 +31,23 @@ app.get('/', function (req, res) {
         username = AV.User.current().getUsername();
     }
 
-    res.render('index', {title: 'Express', user: username, layout: 'share/layout'});
+     var query = new AV.Query(AV.User);
+    var usercount;
+    query.count({
+        success: function(count) {
+            // The count request succeeded. Show the count
+            console.log(count);
+            usercount=count;
+            res.render('index', {title: 'Express', user: username, usercount:count,layout: 'share/layout'});
+        },
+        error: function(error) {
+            // The request failed
+            res.render('index', {title: 'Express', user: username, usercount:0,layout: 'share/layout'});
+        }
+    });
+
+
+    //res.render('index', {title: 'Express', user: username, usercount:usercount,layout: 'share/layout'});
 });
 
 app.get('/users/login', function (req, res) {
