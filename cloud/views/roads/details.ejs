@@ -1,5 +1,5 @@
-<ol class="breadcrumb">
-  <li><a href="/">首页</a></li>
+﻿<ol class="breadcrumb">
+    <li><a href="/">首页</a></li>
     <li><a href="/roads/list">路线</a></li>
     <li class="active"><%= title %></li>
 </ol>
@@ -106,80 +106,8 @@
                             </form>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="roadimgmanatab">
-                            <div class="row">
+                            <div class="row" id="roadimglistdiv">
 
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/img1.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="thumbnail">
-                                        <img src="/images/iconfont-ditu.png" class="img-rounded"/>
-
-                                        <div class="caption">
-                                            <p><a href="#" class="btn btn-default" role="button">删除</a></p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -205,10 +133,34 @@
                 <h4 class="modal-title" id="myModalLabel">站点照片上传</h4>
             </div>
             <div class="modal-body">
-                <form id="myawesomedropzone" name="myawesomedropzone" role="form" action="/points/uploadpointimage"
-                      method="post" class="dropzone" enctype="multipart/form-data">
-                    <input name="PointID" id="PointID" type="hidden" value="12345678987654321">
-                </form>
+            
+
+                <div role="tabpanel">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation1" class="active"><a href="#pointimguptab" aria-controls="pointimguptab"
+                                                                  role="tab" data-toggle="tab">路线照片上传</a></li>
+                        <li role="presentation2"><a href="#pointimgmanatab" aria-controls="pointimgmanatab" role="tab"
+                                                   data-toggle="tab">路线照片管理</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="pointimguptab">
+                            <form id="myawesomedropzone" name="myawesomedropzone" role="form" action="/points/uploadpointimage"
+                                  method="post" class="dropzone" enctype="multipart/form-data">
+                                <input name="PointID" id="PointID" type="text" value="12345678987654321">
+                            </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="pointimgmanatab">
+                            <div class="row" id="pointimglistdiv">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
         </div>
@@ -512,8 +464,10 @@
 
         $('.pointimg').click(function (e) {
             if ($(e.target).attr('class') == 'pointimg') {
-                $('#PointID').val(e.target.dataset.pointid)
-                $('#PointImgModal').modal('show')
+                $('#PointID').val(e.target.dataset.pointid);
+                $('#PointImgModal').modal('show');
+
+                GetAllPointImages(e.target.dataset.pointid);
             }
         });
         $('.pointcontent').click(function (e) {
@@ -537,7 +491,7 @@
                     console.log(data)
                     $('#PointContentEditContent').code(data.Content);
                     //alert($('#PointContentEditContent').code())
-                    $('#PointTitleEditLabel').val(data.Title);
+                    $('#PointTitleEditLabel').html(data.Title);
 
                 }
             });
@@ -550,6 +504,11 @@
             if ($(e.target).attr('id') == 'roadimg') {
                 $('#RoadID').val(e.target.dataset.roadid);
                 $('#RoadImgModal').modal('show');
+
+
+                GetAllRoadImages(e.target.dataset.roadid)
+
+
             }
         });
         $('.pointpositionset').click(function (e) {
@@ -684,22 +643,84 @@
             GetMarker(x, y)
         });
     }
-
-    function GetAllRoadImages() {
+    //获取路线的所有图片并删除图片
+    function GetAllRoadImages(roadid) {
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/roads/getallimages",
             data: "RoadID=" + roadid,
             dataType: "json",
             success: function (data) {
+                console.log(data)
+                var everstr="";
                 for (var i = 0; i < data.length; i++) {
-                    var everstr = "<div class='col-md-3'><div class='thumbnail'><img src='/images/img1.png' class='img-rounded'/><div class='caption'><p><a href='#' class='btn btn-default' role='button'>删除</a></p></div></div></div>";
-
-
+                    everstr+= "<div class='col-md-3'><div class='thumbnail'><img src='"+data[i].imageurl+"' class='img-rounded'/><div class='caption'><p><button class='btn btn-default deleteroadimgbtn' data-imgid='"+data[i].id+"'>删除</button></p></div></div></div>";
                 }
+                $("#roadimglistdiv").html(everstr)
+
+                $(".deleteroadimgbtn").click(function(e){
+                    console.log(e.target.dataset.imgid)
+                    $.ajax({
+                        type: "POST",
+                        url: "/roads/deleteroadimage",
+                        data: "ImageID=" + e.target.dataset.imgid,
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data)
+                            if (data == true) {
+                                //alert("删除成功");
+                               // console.log("删除成功"+roadid)
+                                GetAllRoadImages(roadid)
+                            }
+                            else {
+                                alert("删除失败")
+                            }
+                        }
+                    });
+                });
             }
         });
     }
+
+    //获取站点的所有图片并删除图片
+    function GetAllPointImages(pointid) {
+        $.ajax({
+            type: "GET",
+            url: "/points/getallimages",
+            data: "PointID=" + pointid,
+            dataType: "json",
+            success: function (data) {
+                console.log(data)
+                var everstr="";
+                for (var i = 0; i < data.length; i++) {
+                    everstr+= "<div class='col-md-3'><div class='thumbnail'><img src='"+data[i].imageurl+"' class='img-rounded'/><div class='caption'><p><button class='btn btn-default deletepointimgbtn' data-imgid='"+data[i].id+"'>删除</button></p></div></div></div>";
+                }
+                $("#pointimglistdiv").html(everstr)
+
+                $(".deletepointimgbtn").click(function(e){
+                    console.log(e.target.dataset.imgid)
+                    $.ajax({
+                        type: "POST",
+                        url: "/points/deletepointimage",
+                        data: "ImageID=" + e.target.dataset.imgid,
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data)
+                            if (data == true) {
+                                //alert("删除成功");
+                                // console.log("删除成功"+roadid)
+                                GetAllPointImages(pointid)
+                            }
+                            else {
+                                alert("删除失败")
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    }
+
 
 
     function SavePointContentEdit() {
@@ -736,13 +757,13 @@
         addRemoveLinks: true,
         init: function () {
             this.on("complete", function (data) {
-
+            console.log(data);
                 $.ajax({
                     url: "/roads/pointlistpart/<%=roadid%>",
                     datatype: "html",
                     context: document.body,
-                    success: function (data) {
-                        console.log(data);
+                    success: function (data1) {
+                        //console.log(data);
                         //$("#roadpointlistdiv").empty();
                         //$("#roadpointlistdiv").append(data);
                         $("#roadpointlistdiv").load("/roads/pointlistpart/<%=roadid%>", function () {

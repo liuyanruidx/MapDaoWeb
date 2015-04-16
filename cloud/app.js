@@ -31,7 +31,8 @@ app.get('/', function (req, res) {
         username = AV.User.current().getUsername();
     }
 
-     var query = new AV.Query(AV.User);
+
+    var query = new AV.Query(AV.User);
     var usercount;
     query.count({
         success: function(count) {
@@ -143,10 +144,10 @@ app.get('/roads/list', function (req, res) {
         console.log(currentUser.getUsername());
         username = currentUser.getUsername();
 
-        var isedit=false;
-        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        var isedit = false;
+        if (currentUser.attributes.UserRoleId != "551163fde4b0dbfd5ebdaa23")//普通用户
         {
-            isedit=true;
+            isedit = true;
         }
         var roads = new Array();
 
@@ -169,7 +170,7 @@ app.get('/roads/list', function (req, res) {
 
                 }
 
-                res.render('roads/list', {roads: roads, user: username, isedit:isedit,layout: 'share/layout'});
+                res.render('roads/list', {roads: roads, user: username, isedit: isedit, layout: 'share/layout'});
             },
             error: function (error) {
                 alert("Error: " + error.code + " " + error.message);
@@ -281,10 +282,10 @@ app.get('/roads/details/:id', function (req, res) {
     var username;
     if (currentUser) {
         username = currentUser.getUsername();
-        var isedit=false;
-        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        var isedit = false;
+        if (currentUser.attributes.UserRoleId != "551163fde4b0dbfd5ebdaa23")//普通用户
         {
-            isedit=true;
+            isedit = true;
         }
 
         var Road = AV.Object.extend("Road");
@@ -309,7 +310,7 @@ app.get('/roads/details/:id', function (req, res) {
 
                             var point = new Object();
                             point.id = object.id;
-                            point.type=object.get('Type');
+                            point.type = object.get('Type');
                             point.title = object.get('Title');
                             point.content = object.get('Content');
                             points.push(point);
@@ -321,7 +322,7 @@ app.get('/roads/details/:id', function (req, res) {
                             title: title,
                             user: username,
                             content: content,
-                            isedit:isedit,
+                            isedit: isedit,
                             roadid: req.params.id,
                             points: points,
                             layout: 'share/layout'
@@ -366,7 +367,7 @@ app.get('/roads/pointlistpart/:id', function (req, res) {
 
                         var point = new Object();
                         point.id = object.id;
-                        point.type=object.get('Type');
+                        point.type = object.get('Type');
                         point.title = object.get('Title');
                         point.content = object.get('Content').replace(/<\/?.+?>/g, "");
                         points.push(point);
@@ -499,7 +500,7 @@ app.post('/roads/uploadroadimage', function (req, res) {
 });
 app.get('/roads/getroadfirstimage/:id', function (req, res) {
 
-
+    //var args = url.parse(req.url, true).query;
     var Road_Image = AV.Object.extend("Road_Image");
     var queryimg = new AV.Query(Road_Image);
     queryimg.equalTo("RoadId", req.params.id);
@@ -530,22 +531,78 @@ app.get('/roads/getroadfirstimage/:id', function (req, res) {
 });
 
 
+app.get('/roads/getallimages',function(req,res){
+
+
+    var args = url.parse(req.url, true).query;
+
+    var Road_Image = AV.Object.extend("Road_Image");
+    var query = new AV.Query(Road_Image);
+    query.equalTo("RoadId", args.RoadID);
+    query.ascending("createdAt");
+    query.find({
+        success: function (results) {
+            //alert("Successfully retrieved " + results.length + " scores.");
+            // Do something with the returned AV.Object values
+
+            var imgs=new Array();
+
+            for (var i = 0; i < results.length; i++) {
+                var object = results[i];
+                var img = new Object();
+                img.id = object.id;
+                img.imageurl = object.get('Image').thumbnailURL(150, 150);
+
+                imgs.push(img);
+                //console.log(points);
+            }
+            res.send(imgs);
+        },
+        error: function (error) {
+           // alert("Error: " + error.code + " " + error.message);
+            res.send('false');
+
+        }
+    });
+});
+
+
+app.post('/roads/deleteroadimage',function(req,res){
+    var Road_Image = AV.Object.extend("Road_Image");
+    var query = new AV.Query(Road_Image);
+    query.get(req.body.ImageID, {
+        success: function (img) {
+            //console.log(point)
+
+            img.destroy({
+                success: function (myObject) {
+                    res.send('true');
+                },
+                error: function (myObject, error) {
+                    res.send('false');
+                }
+            });
+
+        },
+        error: function (object, error) {
+
+            res.send('false');
+        }
+    });
+});
 /* 添加路线 */
 app.post('/points/pointadd', function (req, res) {
-
 
 
     var Point = AV.Object.extend("Point");
     var point = new Point();
 
-    if(req.body.wenbenis=="true")
-    {
+    if (req.body.wenbenis == "true") {
         point.set("Type", "文本");
 
     }
-    else
-    {
-        point.set("Type","站点");
+    else {
+        point.set("Type", "站点");
 
     }
     point.set("RoadId", req.body.RoadId);
@@ -706,6 +763,7 @@ app.get('/points/getpointimage/:id', function (req, res) {
 });
 app.get('/points/getpointfirstimage/:id', function (req, res) {
 
+
     var args = url.parse(req.url, true).query;
     var Point_Image = AV.Object.extend("Point_Image");
     var queryimg = new AV.Query(Point_Image);
@@ -715,6 +773,8 @@ app.get('/points/getpointfirstimage/:id', function (req, res) {
             //console.log(point.id)
 
             if (queryimg != null) {
+                //imgurl = queryimg.get('Image').url();
+
                 if (args.w != null && args.h != null) {
                     //imgurl = queryimg.get('Image').thumbnailURL(args.w, args.h)+"?watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL1RFd1RxV2Q2S0NyYmlVb0lnV0I0andNaTlmd1JDUnZhMXZyNXBNZncucG5n";
                     //imgurl = queryimg.get('Image').url()+"?imageView/1/w/"+args.w+"/h/"+args.h+"|watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL0hjUThtaW1henM5aU83YUNPdmVZcFk4eGM2emduYkVLZ3lUazc2b0MucG5n/dissolve/70";
@@ -725,6 +785,7 @@ app.get('/points/getpointfirstimage/:id', function (req, res) {
                     //imgurl = queryimg.get('Image').url()+"?watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL1RFd1RxV2Q2S0NyYmlVb0lnV0I0andNaTlmd1JDUnZhMXZyNXBNZncucG5n";
                     //imgurl = queryimg.get('Image').url()+"?watermark/1/image/aHR0cDovL2FjLXdhYnBzYTZ5LmNsb3VkZG4uY29tL0hjUThtaW1henM5aU83YUNPdmVZcFk4eGM2emduYkVLZ3lUazc2b0MucG5n/dissolve/70";
                 }
+
             }
             else {
                 imgurl = "/images/img1.png";
@@ -745,7 +806,65 @@ app.get('/points/getpointfirstimage/:id', function (req, res) {
 
 });
 
+app.get('/points/getallimages',function(req,res){
 
+
+    var args = url.parse(req.url, true).query;
+
+    var Point_Image = AV.Object.extend("Point_Image");
+    var query = new AV.Query(Point_Image);
+    query.equalTo("PointId", args.PointID);
+    query.ascending("createdAt");
+    query.find({
+        success: function (results) {
+            //alert("Successfully retrieved " + results.length + " scores.");
+            // Do something with the returned AV.Object values
+
+            var imgs=new Array();
+
+            for (var i = 0; i < results.length; i++) {
+                var object = results[i];
+                var img = new Object();
+                img.id = object.id;
+                img.imageurl = object.get('Image').thumbnailURL(150, 150);
+
+                imgs.push(img);
+                //console.log(points);
+            }
+            res.send(imgs);
+        },
+        error: function (error) {
+            // alert("Error: " + error.code + " " + error.message);
+            res.send('false');
+
+        }
+    });
+});
+
+
+app.post('/points/deletepointimage',function(req,res){
+    var Point_Image = AV.Object.extend("Point_Image");
+    var query = new AV.Query(Point_Image);
+    query.get(req.body.ImageID, {
+        success: function (img) {
+            //console.log(point)
+
+            img.destroy({
+                success: function (myObject) {
+                    res.send('true');
+                },
+                error: function (myObject, error) {
+                    res.send('false');
+                }
+            });
+
+        },
+        error: function (object, error) {
+
+            res.send('false');
+        }
+    });
+});
 /* 修改站点标题 */
 app.post('/points/setpositon', function (req, res) {
 
@@ -904,19 +1023,16 @@ app.get('/invitation/index', function (req, res) {
     var username;
     if (currentUser) {
         username = currentUser.getUsername();
-        var isedit=false;
-        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        var isedit = false;
+        if (currentUser.attributes.UserRoleId != "551163fde4b0dbfd5ebdaa23")//普通用户
         {
-            isedit=true;
+            isedit = true;
         }
 
 
         var nowdatetime = new Date();
         //dateFormat(nowdatetime, "dddd, mmmm dS, yyyy, h:MM:ss TT");
         var aaa = dateFormat(nowdatetime, "yyyymmddHHMMss");
-
-
-
 
 
         //得到自己所有邀请码
@@ -926,7 +1042,7 @@ app.get('/invitation/index', function (req, res) {
 
         var InvitationCode = AV.Object.extend("InvitationCode");
         var query = new AV.Query(InvitationCode);
-        query.equalTo("CreateUserId",currentUser.id);
+        query.equalTo("CreateUserId", currentUser.id);
         query.find({
             success: function (results) {
                 //alert("Successfully retrieved " + results.length + " scores.");
@@ -944,8 +1060,8 @@ app.get('/invitation/index', function (req, res) {
                 res.render('invitation/index', {
                     datetime: aaa,
                     user: username,
-                    isedit:isedit,
-                    invitationcodes:invitationcodes,
+                    isedit: isedit,
+                    invitationcodes: invitationcodes,
 
                     layout: 'share/layout'
                 });
@@ -968,9 +1084,9 @@ app.get("/invitation/add", function (req, res) {
         username = currentUser.getUsername();
         var nowdatetime = new Date();
         //dateFormat(nowdatetime, "dddd, mmmm dS, yyyy, h:MM:ss TT");
-        var nowdatestr=   dateFormat(nowdatetime, "yyyymmddHHMMss");
+        var nowdatestr = dateFormat(nowdatetime, "yyyymmddHHMMss");
 
-        var codestr=username+nowdatestr;
+        var codestr = username + nowdatestr;
 
         var md5 = crypto.createHash('md5');
         md5.update(codestr);
@@ -982,9 +1098,9 @@ app.get("/invitation/add", function (req, res) {
         console.log(currentUser.id);
         var InvitationCode = AV.Object.extend("InvitationCode");
         var invitationcode = new InvitationCode();
-        invitationcode.set("Code",md5code );
-        invitationcode.set("CreateUserId",currentUser.id );
-        invitationcode.set("IsUsed",false );
+        invitationcode.set("Code", md5code);
+        invitationcode.set("CreateUserId", currentUser.id);
+        invitationcode.set("IsUsed", false);
         invitationcode.save(null, {
                 success: function (invitationcode) {
                     //res.send('true');
@@ -992,11 +1108,10 @@ app.get("/invitation/add", function (req, res) {
                 },
                 error: function (invitationcode, error) {
                     //res.send('添加失败');
-                   // res.redirect('/invitation/index');
+                    // res.redirect('/invitation/index');
                 }
             }
         );
-
 
 
         res.redirect('/invitation/index');
@@ -1004,14 +1119,9 @@ app.get("/invitation/add", function (req, res) {
     }
 
 
-
-
-
-
-
 });
 
-app.get("/users/applyforedit",function(req,res){
+app.get("/users/applyforedit", function (req, res) {
     var currentUser = AV.User.current();
     var username;
     if (currentUser) {
@@ -1020,28 +1130,27 @@ app.get("/users/applyforedit",function(req,res){
         console.log(currentUser);
         console.log(currentUser.attributes.UserRoleId);
 
-        var isedit=false;
-        if(currentUser.attributes.UserRoleId!="551163fde4b0dbfd5ebdaa23")//普通用户
+        var isedit = false;
+        if (currentUser.attributes.UserRoleId != "551163fde4b0dbfd5ebdaa23")//普通用户
         {
-            isedit=true;
+            isedit = true;
         }
-
 
 
         res.render('users/applyforedit', {
 
             user: username,
-            isedit:isedit,
+            isedit: isedit,
             layout: 'share/layout'
         });
     }
     else {
         res.redirect('/users/login');
     }
-    });
+});
 
 
-app.post("/users/applyforedit",function(req,res){
+app.post("/users/applyforedit", function (req, res) {
 
 
     var currentUser = AV.User.current();
@@ -1059,10 +1168,10 @@ app.post("/users/applyforedit",function(req,res){
 
                 if (invitationquery != null) {
                     //imgurl = queryimg.get('Image').url();
-                    invitationquery.set("IsUsed",true);
-                    invitationquery.set("UseUserId",currentUser.id);
+                    invitationquery.set("IsUsed", true);
+                    invitationquery.set("UseUserId", currentUser.id);
                     invitationquery.save();
-                    currentUser.set("UserRoleId","55116417e4b0dbfd5ebdaba2");
+                    currentUser.set("UserRoleId", "55116417e4b0dbfd5ebdaba2");
                     currentUser.save();
                     res.redirect('/users/info');
                 }
@@ -1070,8 +1179,6 @@ app.post("/users/applyforedit",function(req,res){
                     res.redirect('/users/applyforedit');
 
                 }
-
-
 
 
             },
@@ -1082,7 +1189,6 @@ app.post("/users/applyforedit",function(req,res){
         });
 
 
-
     }
     else {
         res.redirect('/users/login');
@@ -1091,18 +1197,18 @@ app.post("/users/applyforedit",function(req,res){
 
 });
 
-app.get("/users/info",function(req,res){
+app.get("/users/info", function (req, res) {
     var currentUser = AV.User.current();
     var username;
     if (currentUser) {
         username = currentUser.getUsername();
-       var useremail=currentUser.attributes.email;
+        var useremail = currentUser.attributes.email;
         console.log(currentUser);
 
         res.render('users/info', {
 
             user: username,
-            useremail:useremail,
+            useremail: useremail,
             layout: 'share/layout'
         });
     }
@@ -1111,65 +1217,63 @@ app.get("/users/info",function(req,res){
     }
 });
 
-app.get("/users/pwdreset",function(req,res){
+app.get("/users/pwdreset", function (req, res) {
     console.log(req.params)
-    var  username=req.query.username;
-    res.render('users/pwdreset', { user: username, layout: 'share/layout'});
+    var username = req.query.username;
+    res.render('users/pwdreset', {user: username, layout: 'share/layout'});
 });
-app.post("/users/pwdreset",function(req,res){
-    var  username=req.body.username;
+app.post("/users/pwdreset", function (req, res) {
+    var username = req.body.username;
 
 
     var query = new AV.Query(AV.User);
     query.equalTo("username", username);  // find all the women
     query.first({
-        success: function(userinfo) {
+        success: function (userinfo) {
             // Do stuff
             console.log(userinfo)
 
-            if(userinfo!=null)
-            {
+            if (userinfo != null) {
 
-                var useremail=userinfo.attributes.email;
-                res.render('users/sendpwdresetemail', { user: username,useremail:useremail, layout: 'share/layout'});
+                var useremail = userinfo.attributes.email;
+                res.render('users/sendpwdresetemail', {user: username, useremail: useremail, layout: 'share/layout'});
 
             }
-            else
-            {
+            else {
                 //res.send("<script language='javascript'> alert('该用户不存在');</script>")
 
 
-             res.send("<script language='javascript'>if(confirm('该用户不存在！')){document.location.replace('/users/pwdreset')}else{document.location.replace('/users/pwdreset')};</script>");
+                res.send("<script language='javascript'>if(confirm('该用户不存在！')){document.location.replace('/users/pwdreset')}else{document.location.replace('/users/pwdreset')};</script>");
             }
         }
     });
 
 });
 
-app.post("/users/sendpwdresetemail",function(req,res){
+app.post("/users/sendpwdresetemail", function (req, res) {
 
 
     AV.User.requestPasswordReset(req.body.useremail.trim(), {
-        success: function() {
+        success: function () {
             // Password reset request was sent successfully
             res.render('users/sendpwdresetemailresult', {
-                user:null,
-                resultmessage:"发送重置密码邮件成功！",
+                user: null,
+                resultmessage: "发送重置密码邮件成功！",
                 layout: 'share/layout'
             });
         },
-        error: function(error) {
+        error: function (error) {
             // Show the error message somewhere
             res.render('users/sendpwdresetemailresult', {
                 user: null,
-                resultmessage:"发送重置密码邮件失败！",
+                resultmessage: "发送重置密码邮件失败！",
                 layout: 'share/layout'
             });
         }
     });
 });
 
-app.get("/users/changepassword",function(req,res){
+app.get("/users/changepassword", function (req, res) {
     var currentUser = AV.User.current();
     var username;
     if (currentUser) {
@@ -1189,7 +1293,7 @@ app.get("/users/changepassword",function(req,res){
     }
 });
 
-app.post("/users/changepassword",function(req,res){
+app.post("/users/changepassword", function (req, res) {
     var currentUser = AV.User.current();
     var username;
     if (currentUser) {
@@ -1197,23 +1301,23 @@ app.post("/users/changepassword",function(req,res){
 
         console.log(currentUser);
 
-        currentUser.updatePassword(req.body.oldpassword.trim(),req.body.newpassword.trim(),{
-            success: function(){
+        currentUser.updatePassword(req.body.oldpassword.trim(), req.body.newpassword.trim(), {
+            success: function () {
                 //更新成功
 
                 res.render('users/changepwdresult', {
                     user: username,
-                    resultmessage:"密码修改成功！",
+                    resultmessage: "密码修改成功！",
                     layout: 'share/layout'
                 });
 
             },
-            error: function(err){
+            error: function (err) {
                 //更新失败
-               // console.dir(err);
+                // console.dir(err);
                 res.render('users/changepwdresult', {
                     user: username,
-                    resultmessage:"密码修改失败！",
+                    resultmessage: "密码修改失败！",
                     layout: 'share/layout'
                 });
 
@@ -1224,6 +1328,7 @@ app.post("/users/changepassword",function(req,res){
         res.redirect('/users/login');
     }
 });
+
 app.get("/company/about",function(req,res){
     res.render('company/about', {
         layout: null
