@@ -871,6 +871,8 @@
         map.centerAndZoom(point, 11);
         console.log(point)
         map.setCenter(point)
+		console.log(map.getCenter().lng + ", " + map.getCenter().lat);
+		console.log(map.getBounds())
         GetAddress(point);
     }
     /*根据坐标获取地址*/
