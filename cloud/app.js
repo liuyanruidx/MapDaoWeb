@@ -344,6 +344,95 @@ app.get('/roads/details/:id', function (req, res) {
 
 });
 
+/*路线站点排序*/
+app.get('/roads/pointorder/:id',function(req,res){
+    var currentUser = AV.User.current();
+    var username;
+    if (currentUser) {
+        username = currentUser.getUsername();
+        var isedit = false;
+        if (currentUser.attributes.UserRoleId != "551163fde4b0dbfd5ebdaa23")//普通用户
+        {
+            isedit = true;
+        }
+
+        var Road = AV.Object.extend("Road");
+        var query = new AV.Query(Road);
+        query.get(req.params.id, {
+            success: function (road) {
+                var title = road.get("Title");
+                var content = road.get("Content");
+
+                var points = new Array();
+
+                var Point = AV.Object.extend("Point");
+                var query = new AV.Query(Point);
+                query.equalTo("RoadId", req.params.id);
+                query.ascending("createdAt");
+                query.find({
+                    success: function (results) {
+                        //alert("Successfully retrieved " + results.length + " scores.");
+                        // Do something with the returned AV.Object values
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+
+                            var point = new Object();
+                            point.id = object.id;
+                            point.type = object.get('Type');
+                            point.title = object.get('Title');
+                            point.order=object.get('Order');
+                            point.content = object.get('Content');
+                            points.push(point);
+                            //console.log(points);
+
+
+                        }
+                        res.render('roads/pointorder', {
+                            title: title,
+                            user: username,
+                            content: content,
+                            isedit: isedit,
+                            roadid: req.params.id,
+                            points: points,
+                            layout: 'share/layout'
+                        });
+                    },
+                    error: function (error) {
+                        alert("Error: " + error.code + " " + error.message);
+                    }
+                });
+            },
+            error: function (object, error) {
+            }
+        });
+    }
+    else {
+        res.redirect('/users/login');
+    }
+});
+/* 修改站点序号 */
+app.post('/points/editpointorder', multipartMiddleware, function (req, res) {
+    //console.log(req)
+
+    console.log(req.body)
+
+
+    var Point = AV.Object.extend("Point");
+    var query = new AV.Query(Point);
+    query.get(req.body.PointID.trim(), {
+        success: function (point) {
+            // The object was retrieved successfully.
+            point.set("Order",parseInt( req.body.Order.trim()));
+            point.save();
+            res.send('true');
+        },
+        error: function (object, error) {
+            // The object was not retrieved successfully.
+            // error is a AV.Error with an error code and description.
+            res.send('false');
+        }
+    });
+});
 app.get('/roads/pointlistpart/:id', function (req, res) {
     var Road = AV.Object.extend("Road");
     var query = new AV.Query(Road);
