@@ -300,7 +300,7 @@ app.get('/roads/details/:id', function (req, res) {
                 var Point = AV.Object.extend("Point");
                 var query = new AV.Query(Point);
                 query.equalTo("RoadId", req.params.id);
-                query.ascending("createdAt");
+                query.ascending("Order");
                 query.find({
                     success: function (results) {
                         //alert("Successfully retrieved " + results.length + " scores.");
@@ -368,7 +368,7 @@ app.get('/roads/pointorder/:id',function(req,res){
                 var Point = AV.Object.extend("Point");
                 var query = new AV.Query(Point);
                 query.equalTo("RoadId", req.params.id);
-                query.ascending("createdAt");
+                query.ascending("Order");
                 query.find({
                     success: function (results) {
                         //alert("Successfully retrieved " + results.length + " scores.");
@@ -446,7 +446,7 @@ app.get('/roads/pointlistpart/:id', function (req, res) {
             var Point = AV.Object.extend("Point");
             var query = new AV.Query(Point);
             query.equalTo("RoadId", req.params.id);
-            query.ascending("createdAt");
+            query.ascending("Order");
             query.find({
                 success: function (results) {
                     //alert("Successfully retrieved " + results.length + " scores.");
