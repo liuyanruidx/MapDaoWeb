@@ -60,14 +60,27 @@
         <li id="<%= i+1 %>>">
             <div class="item"  data-pointid="<%= points[i].id %>" data-order="<%= points[i].order %>" style="background-color: #c67605">
 
-                <span style="padding-top: 18%;position: absolute;bottom:10px;left: 10px;top:10px;right: 10px;;z-index: 55;width: 180px;color: #bd362f;line-height: 20px;background-color: rgba(255,255,255,0.6)"><%= points[i].title %></span>
+
+                 <span style="padding-top:5%;position: absolute;bottom:10px;left: 10px;top:10px;right: 10px;;z-index: 55;width: 180px;color: #bd362f;line-height: 20px;background-color: rgba(255,255,255,0.6)">
+                    <%= points[i].title %>
+                     <br/>
+                    <span style="width: 100%;font-size: 8px;color: #555555;padding:0 5px;">
+                       <%= points[i].content %>
+                    </span>
+                </span>
             </div>
         </li>
         <%}else{%>
         <li id="<%= i+1 %>>">
             <div class="item"  data-pointid="<%= points[i].id %>" data-order="<%= points[i].order %>">
                 <img src="/points/getpointfirstimage/<%= points[i].id + "?w=600&h=400&date=" + new Date() %>"/>
-                <span style="padding-top: 18%;position: absolute;bottom:10px;left: 10px;top:10px;right: 10px;;z-index: 55;width: 180px;color: #bd362f;line-height: 20px;background-color: rgba(255,255,255,0.6)"><%= points[i].title %></span>
+                <span style="padding-top:5%;position: absolute;bottom:10px;left: 10px;top:10px;right: 10px;;z-index: 55;width: 180px;color: #bd362f;line-height: 20px;background-color: rgba(255,255,255,0.6)">
+                    <%= points[i].title %>
+                    <br/>
+                    <span style="width: 100%;font-size: 8px;color: #555555;padding:0 5px;">
+                       <%= points[i].content %>
+                    </span>
+                </span>
             </div>
         </li>
         <%}%>
@@ -251,39 +264,49 @@
         //$("#abc").children().each(function() {
         //    console.log($(this).attr("id"))
         //});
-        $(".item").each(function () {
-            console.log($(this).attr("index"))
-            console.log($(this))
+
+try {
+    $(".item").each(function () {
+        console.log($(this).attr("index"))
+        console.log($(this))
 
 
-            var neworder=parseInt($(this).attr("index"))+1;
+        var neworder = parseInt($(this).attr("index")) + 1;
 
-            /*修改序号*/
+        /*修改序号*/
 
-                var pointid =$(this)[0].dataset.pointid;
-                var order =$(this)[0].dataset.order;
-            console.log("id:"+pointid+"-new:"+neworder+"-old:"+order)
-
-            if(neworder!=order) {
-                console.log("asdfasdf")
-                $.ajax({
-                    type: "POST",
-                    url: "/points/editpointorder",
-                    data: "PointID=" + pointid + "&Order=" + neworder,
-                    dataType: "json",
-                    success: function (data) {
-                        if (data == true) {
-                            console.log("success")
-                        }
-                        else {
-                            console.log("faild")
-                        }
+        var pointid = $(this)[0].dataset.pointid;
+        var order = $(this)[0].dataset.order;
+        console.log("id:" + pointid + "-new:" + neworder + "-old:" + order);
+        ;
+        if (neworder != order) {
+            console.log("asdfasdf")
+            $.ajax({
+                type: "POST",
+                url: "/points/editpointorder",
+                data: "PointID=" + pointid + "&Order=" + neworder,
+                dataType: "json",
+                success: function (data) {
+                    if (data == true) {
+                        console.log("success")
                     }
-                });
-            }
+                    else {
+                        console.log("faild")
+                    }
+                }
             });
+        }
+    });
+    alert("保存成功！")
+
+}
+        catch(e)
+        {
+            alert("保存失败！")
+        }
+
+    };
 
 
 
-    }
 </script>

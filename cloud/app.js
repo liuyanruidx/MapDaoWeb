@@ -381,7 +381,12 @@ app.get('/roads/pointorder/:id',function(req,res){
                             point.type = object.get('Type');
                             point.title = object.get('Title');
                             point.order=object.get('Order');
-                            point.content = object.get('Content');
+                            point.content = object.get('Content').replace(/<\/?.+?>/g, "");
+
+                            if(point.content.length>=40)
+                            {
+                                point.content=point.content.substr(0,40)+"...";
+                            }
                             points.push(point);
                             //console.log(points);
 
