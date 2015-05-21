@@ -1442,5 +1442,130 @@ app.get("/help/edithelp",function(req,res){
         title: 'Express', user: username, layout: 'share/layout'
     });
 });
+//页脚
+app.get('/help/copyright', function (req, res) {
+    console.log('获取当前用户: %j', AV.User.current());
+
+    var currentUser = AV.User.current();
+    var username = null;
+    if (currentUser) {
+        console.log(currentUser);
+        username = AV.User.current().getUsername();
+    }
+
+
+    var query = new AV.Query(AV.User);
+    var usercount;
+    query.count({
+        success: function(count) {
+            // The count request succeeded. Show the count
+            console.log(count);
+            usercount=count;
+            res.render('help/copyright', {title: 'Express', user: username, usercount:count,layout: 'share/layout'});
+        },
+        error: function(error) {
+            // The request failed
+            res.render('index', {title: 'Express', user: username, usercount:0,layout: 'share/layout'});
+        }
+    });
+
+
+    //res.render('index', {title: 'Express', user: username, usercount:usercount,layout: 'share/layout'});
+});
+
+
+app.get('/help/agreement', function (req, res) {
+    console.log('获取当前用户: %j', AV.User.current());
+
+    var currentUser = AV.User.current();
+    var username = null;
+    if (currentUser) {
+        console.log(currentUser);
+        username = AV.User.current().getUsername();
+    }
+
+
+    var query = new AV.Query(AV.User);
+    var usercount;
+    query.count({
+        success: function(count) {
+            // The count request succeeded. Show the count
+            console.log(count);
+            usercount=count;
+            res.render('help/agreement', {title: 'Express', user: username, usercount:count,layout: 'share/layout'});
+        },
+        error: function(error) {
+            // The request failed
+            res.render('index', {title: 'Express', user: username, usercount:0,layout: 'share/layout'});
+        }
+    });
+
+
+    //res.render('index', {title: 'Express', user: username, usercount:usercount,layout: 'share/layout'});
+});
+
+app.get('/help/disclaimer', function (req, res) {
+    console.log('获取当前用户: %j', AV.User.current());
+
+    var currentUser = AV.User.current();
+    var username = null;
+    if (currentUser) {
+        console.log(currentUser);
+        username = AV.User.current().getUsername();
+    }
+
+
+    var query = new AV.Query(AV.User);
+    var usercount;
+    query.count({
+        success: function(count) {
+            // The count request succeeded. Show the count
+            console.log(count);
+            usercount=count;
+            res.render('help/disclaimer', {title: 'Express', user: username, usercount:count,layout: 'share/layout'});
+        },
+        error: function(error) {
+            // The request failed
+            res.render('index', {title: 'Express', user: username, usercount:0,layout: 'share/layout'});
+        }
+    });
+
+
+    //res.render('index', {title: 'Express', user: username, usercount:usercount,layout: 'share/layout'});
+});
+
+
+app.get('/help/privacy', function (req, res) {
+    console.log('获取当前用户: %j', AV.User.current());
+
+    var currentUser = AV.User.current();
+    var username = null;
+    if (currentUser) {
+        console.log(currentUser);
+        username = AV.User.current().getUsername();
+    }
+
+
+    var query = new AV.Query(AV.User);
+    var usercount;
+    query.count({
+        success: function(count) {
+            // The count request succeeded. Show the count
+            console.log(count);
+            usercount=count;
+            res.render('help/privacy', {title: 'Express', user: username, usercount:count,layout: 'share/layout'});
+        },
+        error: function(error) {
+            // The request failed
+            res.render('index', {title: 'Express', user: username, usercount:0,layout: 'share/layout'});
+        }
+    });
+
+
+    //res.render('index', {title: 'Express', user: username, usercount:usercount,layout: 'share/layout'});
+});
+
+
+
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
 app.listen();
