@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-     <title>脉到</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <title>脉到</title>
     <link rel="stylesheet" href="/javascripts/bootstrap/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="/stylesheets/style.css">
@@ -105,6 +105,43 @@
 
 
 </div>
+
+<div class="container">
+
+    <footer>
+        <p style="float: left;">&copy; <%=(new Date()).getFullYear()%> - 脉到</p>
+        <ul class="footer-ul">
+            <li>
+                <a href="/help/copyright">版权声明</a>
+            </li>
+            <li>
+                <a href="/help/agreement">使用协议</a>
+            </li>
+            <li>
+                <a href="/help/disclaimer">免责声明</a>
+            </li>
+            <li>
+                <a href="/help/privacy">隐私声明</a>
+            </li>
+        </ul>
+    </footer>
+
+
+</div>
+<style type="text/css">
+    .footer-ul{
+        list-style: none;
+        float: right;
+
+    }
+    .footer-ul li{
+        float: left;
+    }
+    .footer-ul li a{
+        padding: 10px;
+    }
+</style>
+
 <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
