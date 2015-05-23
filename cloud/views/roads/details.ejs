@@ -425,7 +425,14 @@
 
 
         $('#pointcontentform').ajaxForm(function () {
-            alert("提交成功");
+            //$('#PointContentEditContent').code(data.Content);
+            console.log($('#PointContentEditID').val())
+
+            $("#"+$('#PointContentEditID').val()).html($('#PointContentEditContent').code().replace(/<\/?.+?>/g, ""))
+
+            console.log( $('#PointContentEditContent').code())
+            $('#PointContentEditModal').modal('hide')
+            //alert("提交成功");
         });
 
 

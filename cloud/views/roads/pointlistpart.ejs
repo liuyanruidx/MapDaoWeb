@@ -1,4 +1,4 @@
-<% for(var i = 0;i < points.length;i++){ %>
+﻿<% for(var i = 0;i < points.length;i++){ %>
 
 
 
@@ -17,7 +17,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                        <textarea class="content_input pointcontent_text" rows="7" data-pointid="<%= points[i].id %> "
+                        <textarea  class="content_input pointcontent_text" rows="7" data-pointid="<%= points[i].id %> "
                                   style="margin-top: 10px;resize:none;font-size: 14px;padding: 5px;"
                                   placeholder="简介描述"><%= points[i].content %></textarea>
                 </div>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                        <textarea class="content_input pointcontent" rows="7" data-pointid="<%= points[i].id %> "
+                        <textarea id="<%= points[i].id %>"  class="content_input pointcontent" rows="7" data-pointid="<%= points[i].id %> "
                                   style="margin-top: 10px;resize:none;font-size: 14px;padding: 5px;"
                                   placeholder="简介描述"><%= points[i].content %></textarea>
                 </div>
