@@ -1565,6 +1565,12 @@ app.get('/help/privacy', function (req, res) {
     //res.render('index', {title: 'Express', user: username, usercount:usercount,layout: 'share/layout'});
 });
 
+var testchild= require('./cloud/mchild.js');
+
+app.get('/abc',function(req,res){
+   // res.send(testchild.abc())
+    testchild.abc(req, res)
+})
 
 
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
