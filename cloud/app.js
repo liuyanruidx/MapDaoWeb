@@ -1,4 +1,4 @@
-// 在 Cloud code 里初始化 Express 框架
+﻿// 在 Cloud code 里初始化 Express 框架
 var express = require('express');
 var app = express();
 var fs = require('fs');
@@ -1565,7 +1565,7 @@ app.get('/help/privacy', function (req, res) {
     //res.render('index', {title: 'Express', user: username, usercount:usercount,layout: 'share/layout'});
 });
 
-var testchild= require('./cloud/mchild.js');
+var testchild= require('cloud/mchild');
 
 app.get('/abc',function(req,res){
    // res.send(testchild.abc())
